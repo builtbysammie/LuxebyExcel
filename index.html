@@ -1381,17 +1381,25 @@
     </footer>
   </main>
 
-  <script async src="//www.instagram.com/embed.js"></script>
+  <script async defer src="https://www.instagram.com/embed.js"></script>
 
   <script>
     const loader = document.getElementById("loader");
 
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        loader.classList.add("hide");
-        document.body.classList.remove("no-scroll");
-      }, 1350);
+    function hideLoader() {
+      if (!loader) return;
+      loader.classList.add("hide");
+      document.body.classList.remove("no-scroll");
+    }
+
+    // Do not wait for Instagram embeds or heavy images.
+    // The intro should disappear quickly even if external content is slow.
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(hideLoader, 1800);
     });
+
+    // Safety fallback: forces the site to open even if something blocks DOMContentLoaded.
+    setTimeout(hideLoader, 3000);
 
     const revealItems = document.querySelectorAll(".reveal");
 
