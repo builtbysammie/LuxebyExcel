@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glamsbykiki | Pro Makeup Artist in Lagos</title>
   <meta name="description" content="Glamsbykiki is a pro makeup artist in Lagos offering bridal glam, party makeup, beauty training, and travel bookings." />
-
   <meta property="og:title" content="Glamsbykiki | Bridal, Party Makeup & Training" />
   <meta property="og:description" content="Premium makeup artistry for bridal, party, travel bookings, and training in Lagos." />
   <meta property="og:type" content="website" />
@@ -131,25 +130,69 @@
     .btn-book { padding: 11px 20px; border-radius: 999px; background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: var(--ink); font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; transition: transform 0.25s, box-shadow 0.25s; box-shadow: 0 8px 30px rgba(201,153,62,0.22); }
     .btn-book:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(201,153,62,0.34); }
 
-    /* HERO with VIDEO BG */
+    /* =====================
+       HERO SLIDESHOW BG
+    ===================== */
     .hero { min-height: 100vh; display: grid; align-items: end; padding: 100px 0 48px; position: relative; overflow: hidden; }
-    .hero-video-bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
-    .hero-video-bg video { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
-    .hero-video-bg::after {
-      content: ''; position: absolute; inset: 0;
+
+    .hero-slideshow {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden;
+    }
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      opacity: 0;
+      transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: opacity;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide-1 { background-image: url('https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/Kiki-look1-background.png'); }
+    .hero-slide-2 { background-image: url('https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look2-background.png'); }
+    .hero-slide-3 { background-image: url('https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look3-edo-background.png'); }
+
+    .hero-slideshow-overlay {
+      position: absolute; inset: 0; z-index: 1;
       background:
-        linear-gradient(105deg, rgba(10,8,6,0.97) 0%, rgba(10,8,6,0.78) 45%, rgba(10,8,6,0.30) 100%),
+        linear-gradient(105deg, rgba(10,8,6,0.97) 0%, rgba(10,8,6,0.78) 45%, rgba(10,8,6,0.22) 100%),
         linear-gradient(0deg, rgba(10,8,6,1) 0%, rgba(10,8,6,0) 38%);
     }
 
-    /* Orbs for when video isn't loaded */
-    .beauty-orb { position: absolute; border-radius: 999px; filter: blur(16px); opacity: 0.75; animation: driftOrb 12s ease-in-out infinite alternate; }
-    .orb-one { width: 360px; height: 520px; right: 9%; top: 16%; background: linear-gradient(180deg, rgba(232,201,122,0.22), rgba(158,78,69,0.08)); transform: rotate(18deg); }
-    .orb-two { width: 240px; height: 240px; left: 8%; top: 28%; background: rgba(201,153,62,0.12); animation-delay: 0.5s; }
-    .orb-three { width: 420px; height: 190px; right: 22%; bottom: 12%; background: rgba(253,246,238,0.06); animation-delay: 1s; }
+    /* Slide dots indicator */
+    .hero-slide-dots {
+      position: absolute; bottom: 56px; left: 50%; transform: translateX(-50%);
+      z-index: 3; display: flex; gap: 8px; align-items: center;
+    }
+    .hero-slide-dot {
+      width: 6px; height: 6px; border-radius: 999px;
+      background: rgba(253,246,238,0.3);
+      transition: width 0.4s ease, background 0.4s ease;
+      cursor: pointer;
+    }
+    .hero-slide-dot.active { width: 22px; background: var(--gold-light); }
+
+    /* Orbs over the slideshow */
+    .beauty-orb { position: absolute; border-radius: 999px; filter: blur(16px); opacity: 0.75; animation: driftOrb 12s ease-in-out infinite alternate; z-index: 2; }
+    .orb-one { width: 360px; height: 520px; right: 9%; top: 16%; background: linear-gradient(180deg, rgba(232,201,122,0.18), rgba(158,78,69,0.06)); transform: rotate(18deg); }
+    .orb-two { width: 240px; height: 240px; left: 8%; top: 28%; background: rgba(201,153,62,0.1); animation-delay: 0.5s; }
+    .orb-three { width: 420px; height: 190px; right: 22%; bottom: 12%; background: rgba(253,246,238,0.05); animation-delay: 1s; }
     @keyframes driftOrb { from { transform: translate3d(0,0,0) rotate(10deg) scale(1); } to { transform: translate3d(-18px,18px,0) rotate(18deg) scale(1.05); } }
 
-    .hero-inner { display: grid; grid-template-columns: 1fr min(380px, 35%); gap: 48px; align-items: end; }
+    /* Mobile: pan the hero slides left → right */
+    @media (max-width: 640px) {
+      .hero-slide.active.pan-active {
+        background-size: auto 100%;
+        animation: heroPanLR 7s ease-in-out forwards;
+      }
+      @keyframes heroPanLR {
+        0%   { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+    }
+
+    /* HERO LAYOUT */
+    .hero-inner { display: grid; grid-template-columns: 1fr min(380px, 35%); gap: 48px; align-items: end; position: relative; z-index: 3; }
     .tag { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-light); border: 1px solid rgba(232,201,122,0.25); background: rgba(201,153,62,0.08); margin-bottom: 22px; }
     .tag-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-light); box-shadow: 0 0 14px var(--gold-light); animation: pulse 2s ease-in-out infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 14px var(--gold-light); } 50% { opacity: 0.5; box-shadow: 0 0 4px var(--gold-light); } }
@@ -175,7 +218,7 @@
     .phone-frame { position: relative; border-radius: 36px; padding: 12px; background: linear-gradient(145deg, rgba(253,246,238,0.16), rgba(253,246,238,0.04)); border: 1px solid rgba(253,246,238,0.14); margin-bottom: 18px; }
     .phone-top { width: 68px; height: 5px; border-radius: 999px; background: rgba(253,246,238,0.28); margin: 4px auto 12px; }
     .phone-screen { min-height: 340px; border-radius: 28px; overflow: hidden; position: relative; }
-    .phone-screen video { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .phone-screen-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; position: absolute; inset: 0; display: block; }
     .phone-screen::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(10,8,6,0.75) 100%); z-index: 1; }
     .play-pulse { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: rgba(253,246,238,0.12); border: 1px solid rgba(253,246,238,0.2); color: var(--gold-light); backdrop-filter: blur(16px); animation: pulsePlay 2.4s ease-in-out infinite; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 2; font-size: 22px; }
     @keyframes pulsePlay { 0%,100% { box-shadow: 0 0 0 0 rgba(232,201,122,0.22); } 50% { box-shadow: 0 0 0 18px rgba(232,201,122,0); } }
@@ -192,43 +235,56 @@
     .section-lead { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 56px; }
     .section-note { font-size: 15px; line-height: 1.85; color: var(--parchment-dim); font-weight: 300; padding-bottom: 6px; }
 
+    /* =====================
+       SECTION BACKGROUND IMAGES
+    ===================== */
+    .section-bg-layer {
+      position: absolute; inset: 0; overflow: hidden; z-index: 0;
+      pointer-events: none;
+    }
+    .section-bg-img {
+      position: absolute; inset: 0;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      will-change: background-position;
+    }
+    .section-bg-overlay {
+      position: absolute; inset: 0;
+    }
+    /* Make section content appear above the bg layer */
+    section .container { position: relative; z-index: 2; }
+
+    /* Mobile: pan left → right for section backgrounds */
+    @media (max-width: 640px) {
+      .section-bg-img {
+        background-size: auto 100%;
+        animation: sectionPanLR 12s ease-in-out infinite alternate;
+      }
+      @keyframes sectionPanLR {
+        0%   { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+    }
+
     /* SERVICES */
     .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .service-card { border-radius: var(--r); border: 1px solid rgba(253,246,238,0.08); background: rgba(26,20,16,0.6); padding: 28px 24px; min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; transition: transform 0.4s cubic-bezier(0.2,0.9,0.2,1), border-color 0.3s; }
+    .service-card { border-radius: var(--r); border: 1px solid rgba(253,246,238,0.08); background: rgba(26,20,16,0.6); padding: 28px 24px; min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; transition: transform 0.4s cubic-bezier(0.2,0.9,0.2,1), border-color 0.3s; backdrop-filter: blur(8px); }
     .service-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 130px; background: linear-gradient(180deg, transparent, rgba(201,153,62,0.07)); pointer-events: none; }
     .service-card:hover { transform: translateY(-10px); border-color: rgba(232,201,122,0.3); }
     .service-num { font-size: 11px; letter-spacing: 0.25em; color: var(--gold); font-weight: 700; display: block; margin-bottom: auto; }
     .service-card h3 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; line-height: 0.92; letter-spacing: -0.04em; margin-bottom: 14px; margin-top: 42px; }
     .service-card p { font-size: 13.5px; line-height: 1.75; color: var(--parchment-dim); }
 
-    /* VIDEO REEL SECTION */
-    .reels-section-bg {
-      position: relative; overflow: hidden;
-    }
-    .reels-section-bg::before {
-      content: '';
-      position: absolute; inset: 0; z-index: 0;
-      background: rgba(10,8,6,0.5);
-    }
-    .reels-video-bg {
-      position: absolute; inset: 0;
-      overflow: hidden;
-    }
-    .reels-video-bg video {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: blur(2px) brightness(0.35) saturate(1.2);
-      transform: scale(1.05);
-    }
+    /* REELS SECTION */
+    .reels-section-bg { position: relative; overflow: hidden; }
 
-    /* REEL CARDS GRID */
     .reels-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 12px;
       position: relative; z-index: 2;
     }
-
     .reel-card {
       border-radius: 24px;
       overflow: hidden;
@@ -245,28 +301,25 @@
     .reel-card:hover .reel-play { transform: translate(-50%,-50%) scale(1.1); }
 
     .reel-card-thumb {
-      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
       transition: transform 0.8s cubic-bezier(0.2,0.9,0.2,1);
+      display: block;
     }
     .reel-card:hover .reel-card-thumb { transform: scale(1.06); }
 
-    .reel-card-art {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-
     .reel-card::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(10,8,6,0) 35%, rgba(10,8,6,0.88) 100%);
+      background: linear-gradient(180deg, rgba(10,8,6,0) 30%, rgba(10,8,6,0.9) 100%);
+      z-index: 1;
     }
-
     .reel-card-overlay {
       position: absolute; inset: 0;
       background: rgba(201,153,62,0.12);
       opacity: 0; transition: opacity 0.3s;
       z-index: 2;
     }
-
     .reel-play {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
       z-index: 3;
@@ -279,7 +332,6 @@
       transition: transform 0.3s;
       box-shadow: 0 8px 30px rgba(0,0,0,0.4);
     }
-
     .reel-meta {
       position: absolute; left: 16px; right: 16px; bottom: 16px;
       z-index: 4;
@@ -290,14 +342,7 @@
       color: var(--gold-light); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;
       margin-bottom: 8px;
     }
-    .reel-meta strong { display: block; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; letter-spacing: -0.03em; line-height: 1.05; }
-
-    /* Art colors for reel cards without thumbs */
-    .reel-art-1 { background: radial-gradient(circle at 45% 28%, rgba(232,201,122,0.32), transparent 27%), radial-gradient(circle at 70% 72%, rgba(158,78,69,0.28), transparent 34%), linear-gradient(145deg, #1d120e, #090605); }
-    .reel-art-2 { background: radial-gradient(circle at 40% 30%, rgba(253,246,238,0.16), transparent 26%), linear-gradient(145deg, #19100d, #4c2c1c); }
-    .reel-art-3 { background: radial-gradient(circle at 55% 35%, rgba(232,201,122,0.18), transparent 27%), linear-gradient(145deg, #2a1110, #090605); }
-    .reel-art-4 { background: radial-gradient(circle at 60% 28%, rgba(232,201,122,0.38), transparent 27%), linear-gradient(145deg, #3a2415, #0a0806); }
-    .reel-art-5 { background: radial-gradient(circle at 48% 35%, rgba(253,246,238,0.11), transparent 30%), linear-gradient(145deg, #0a0806, #1c1712); }
+    .reel-meta strong { display: block; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; letter-spacing: -0.03em; line-height: 1.1; }
 
     /* PROCESS */
     .process-layout { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 14px; align-items: stretch; }
@@ -308,19 +353,35 @@
     .step-num { width: 48px; height: 48px; border-radius: 50%; background: rgba(201,153,62,0.1); border: 1px solid rgba(201,153,62,0.2); display: grid; place-items: center; color: var(--gold-light); font-size: 12.5px; font-weight: 700; letter-spacing: 0.05em; flex-shrink: 0; }
     .step strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 5px; }
     .step span { font-size: 13px; line-height: 1.6; color: var(--parchment-dim); }
-    .process-img { border-radius: var(--r); overflow: hidden; position: relative; border: 1px solid rgba(253,246,238,0.1); min-height: 520px; }
-    .process-img video { width: 100%; height: 100%; object-fit: cover; object-position: center top; position: absolute; inset: 0; }
-    .process-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(10,8,6,0.7) 100%); }
+
+    /* Process image panel (now uses bg image) */
+    .process-img {
+      border-radius: var(--r); overflow: hidden; position: relative;
+      border: 1px solid rgba(253,246,238,0.1); min-height: 520px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+    .process-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(10,8,6,0.75) 100%); }
     .process-img-content { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; }
     .process-img-inner { text-align: center; padding: 28px; max-width: 380px; }
     .process-img-inner span { display: inline-flex; padding: 7px 10px; border-radius: 999px; background: rgba(201,153,62,0.14); border: 1px solid rgba(232,201,122,0.2); color: var(--gold-light); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; margin-bottom: 12px; }
     .process-img-inner strong { display: block; font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 400; letter-spacing: -0.05em; line-height: 1; color: var(--parchment); }
     .process-img-badge { position: absolute; left: 20px; bottom: 20px; z-index: 3; padding: 10px 16px; border-radius: 999px; background: rgba(10,8,6,0.7); backdrop-filter: blur(14px); border: 1px solid rgba(253,246,238,0.15); font-size: 11.5px; color: var(--gold-light); font-weight: 600; letter-spacing: 0.06em; }
     .video-play-large { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: rgba(253,246,238,0.1); border: 1px solid rgba(253,246,238,0.2); color: var(--gold-light); backdrop-filter: blur(16px); font-size: 26px; margin: 0 auto 20px; animation: pulsePlay 2.4s ease-in-out infinite; }
+    @keyframes pulsePlay { 0%,100% { box-shadow: 0 0 0 0 rgba(232,201,122,0.22); } 50% { box-shadow: 0 0 0 18px rgba(232,201,122,0); } }
+
+    /* Mobile pan for process-img */
+    @media (max-width: 640px) {
+      .process-img {
+        background-size: auto 100%;
+        animation: sectionPanLR 12s ease-in-out infinite alternate;
+      }
+    }
 
     /* BOOKING */
     .booking-wrap { border-radius: 44px; border: 1px solid rgba(253,246,238,0.1); overflow: hidden; display: grid; grid-template-columns: 1fr 0.82fr; background: rgba(26,20,16,0.75); position: relative; }
-    .booking-wrap::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 20% 50%, rgba(201,153,62,0.12), transparent 55%), radial-gradient(ellipse 40% 50% at 90% 90%, rgba(158,78,69,0.1), transparent 50%); pointer-events: none; }
+    .booking-wrap::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 20% 50%, rgba(201,153,62,0.12), transparent 55%), radial-gradient(ellipse 40% 50% at 90% 90%, rgba(158,78,69,0.1), transparent 50%); pointer-events: none; z-index: 1; }
     .booking-body { padding: clamp(36px,5vw,68px); position: relative; z-index: 2; }
     .booking-body h2 { max-width: 580px; margin-bottom: 20px; }
     .booking-body > p { color: var(--parchment-dim); line-height: 1.85; max-width: 540px; margin-bottom: 32px; font-size: 15px; }
@@ -328,9 +389,24 @@
     .pill { padding: 10px 18px; border-radius: 999px; border: 1px solid rgba(253,246,238,0.12); background: rgba(253,246,238,0.05); font-size: 13px; font-weight: 500; color: rgba(253,246,238,0.82); transition: border-color 0.3s, background 0.3s; }
     .pill:hover { border-color: rgba(232,201,122,0.4); background: rgba(201,153,62,0.08); }
     .booking-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .booking-img { min-height: 500px; position: relative; overflow: hidden; }
-    .booking-img video { width: 100%; height: 100%; object-fit: cover; object-position: center top; position: absolute; inset: 0; }
-    .booking-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(26,20,16,0.88), transparent 50%); }
+
+    /* Booking image panel (no video, uses bg image) */
+    .booking-img {
+      min-height: 500px; position: relative; overflow: hidden;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+    .booking-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(26,20,16,0.88), transparent 50%); z-index: 1; }
+
+    /* Mobile pan for booking-img */
+    @media (max-width: 640px) {
+      .booking-img {
+        background-size: auto 100%;
+        animation: sectionPanLR 12s ease-in-out infinite alternate;
+        animation-delay: 3s;
+      }
+    }
 
     /* FOOTER */
     footer { padding: 28px 0 44px; color: rgba(253,246,238,0.42); font-size: 12.5px; letter-spacing: 0.04em; }
@@ -371,6 +447,7 @@
       .stat:last-child { border-bottom: none; }
       section { padding: 80px 0; }
       .booking-img { min-height: 320px; }
+      .hero-slide-dots { bottom: 20px; }
     }
   </style>
 </head>
@@ -415,15 +492,24 @@
 
     <!-- HERO -->
     <header class="hero" id="top">
-      <!-- Video hero background — using Pexels free stock as placeholder; swap src for Kiki's own reel -->
-      <div class="hero-video-bg" aria-hidden="true">
+
+      <!-- IMAGE SLIDESHOW BACKGROUND -->
+      <div class="hero-slideshow" aria-hidden="true">
+        <div class="hero-slide hero-slide-1 active" id="heroSlide0"></div>
+        <div class="hero-slide hero-slide-2" id="heroSlide1"></div>
+        <div class="hero-slide hero-slide-3" id="heroSlide2"></div>
+        <div class="hero-slideshow-overlay"></div>
+        <!-- Atmospheric orbs layered over the images -->
         <div class="beauty-orb orb-one"></div>
         <div class="beauty-orb orb-two"></div>
         <div class="beauty-orb orb-three"></div>
-        <video autoplay muted loop playsinline preload="auto"
-          src="https://www.w3schools.com/html/mov_bbb.mp4"
-          poster="">
-        </video>
+      </div>
+
+      <!-- Slideshow dots -->
+      <div class="hero-slide-dots" aria-hidden="true">
+        <div class="hero-slide-dot active" data-slide="0"></div>
+        <div class="hero-slide-dot" data-slide="1"></div>
+        <div class="hero-slide-dot" data-slide="2"></div>
       </div>
 
       <div class="container hero-inner">
@@ -450,14 +536,17 @@
             <div class="phone-frame">
               <div class="phone-top"></div>
               <div class="phone-screen">
-                <!-- Mini phone video — same placeholder; replace with Kiki's reel clip -->
-                <video autoplay muted loop playsinline preload="auto"
-                  src="https://www.w3schools.com/html/mov_bbb.mp4">
-                </video>
+                <!-- Cover image in phone frame -->
+                <img
+                  class="phone-screen-img"
+                  src="https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look4-cover-bridal-transformation-glam-NOT-SOFT-PROCESS-GLAM.png"
+                  alt="Bridal transformation glam"
+                  loading="eager"
+                >
                 <div class="play-pulse">▶</div>
                 <div class="phone-copy">
                   <span>Transformation Reel</span>
-                  <strong>Soft glam reveal</strong>
+                  <strong>Bridal glam reveal</strong>
                 </div>
               </div>
             </div>
@@ -468,8 +557,14 @@
       </div>
     </header>
 
-    <!-- SERVICES -->
+    <!-- SERVICES — background: look1 image -->
     <section id="services">
+      <!-- Section background layer -->
+      <div class="section-bg-layer" aria-hidden="true">
+        <div class="section-bg-img" style="background-image: url('https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/Kiki-look1-background.png');"></div>
+        <div class="section-bg-overlay" style="background: linear-gradient(180deg, rgba(10,8,6,0.88) 0%, rgba(10,8,6,0.72) 50%, rgba(10,8,6,0.92) 100%);"></div>
+      </div>
+
       <div class="container">
         <div class="section-lead reveal">
           <div>
@@ -513,16 +608,16 @@
       </div>
     </section>
 
-    <!-- REELS SECTION — video blurred bg, reel cards linking to Instagram -->
+    <!-- REELS SECTION — background: look2 image -->
     <section id="reels" class="reels-section-bg">
-      <!-- Blurred video background for the section -->
-      <div class="reels-video-bg" aria-hidden="true">
-        <video autoplay muted loop playsinline preload="auto"
-          src="https://www.w3schools.com/html/mov_bbb.mp4">
-        </video>
+
+      <!-- Section background layer -->
+      <div class="section-bg-layer" aria-hidden="true">
+        <div class="section-bg-img" style="background-image: url('https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look2-background.png'); animation-delay: 2s;"></div>
+        <div class="section-bg-overlay" style="background: linear-gradient(180deg, rgba(10,8,6,0.82) 0%, rgba(10,8,6,0.65) 50%, rgba(10,8,6,0.88) 100%);"></div>
       </div>
 
-      <div class="container" style="position:relative;z-index:2;">
+      <div class="container">
         <div class="section-lead reveal">
           <div>
             <div class="kicker">Transformation reels</div>
@@ -535,53 +630,83 @@
 
         <div class="reels-grid">
 
-          <a class="reel-card reveal" href="https://www.instagram.com/reel/DX6TN4otUcj/" target="_blank" rel="noopener" aria-label="Watch Bridal Glam Reveal reel">
-            <div class="reel-card-art reel-art-1"></div>
+          <!-- Reel 1: kiki-look5 — Lifestyle (was "Bridal Glam Reveal") -->
+          <a class="reel-card reveal" href="https://www.instagram.com/reel/DX6TN4otUcj/" target="_blank" rel="noopener" aria-label="Watch Lifestyle reel on Instagram">
+            <img
+              class="reel-card-thumb"
+              src="https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look5-cover-lifestyle-NOT-BRIDAL-GLAM-REVEAL.png"
+              alt="Lifestyle makeup look"
+              loading="lazy"
+            >
+            <div class="reel-card-overlay"></div>
+            <div class="reel-play">▶</div>
+            <div class="reel-meta">
+              <span class="reel-label">Lifestyle</span>
+              <strong>Lifestyle</strong>
+            </div>
+          </a>
+
+          <!-- Reel 2: kiki-look6 — Edo Bridal (was "Party Makeup Finish") -->
+          <a class="reel-card reveal" href="https://www.instagram.com/reel/DXMekKLiBNO/" target="_blank" rel="noopener" aria-label="Watch Edo Bridal reel on Instagram">
+            <img
+              class="reel-card-thumb"
+              src="https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look6-cover-edo-bridal-NOT-PARTY-MAKEUP-FINISH.png"
+              alt="Edo bridal makeup look"
+              loading="lazy"
+            >
             <div class="reel-card-overlay"></div>
             <div class="reel-play">▶</div>
             <div class="reel-meta">
               <span class="reel-label">Bridal</span>
-              <strong>Bridal Glam Reveal</strong>
+              <strong>Edo Bridal</strong>
             </div>
           </a>
 
-          <a class="reel-card reveal" href="https://www.instagram.com/reel/DXMekKLiBNO/" target="_blank" rel="noopener" aria-label="Watch Party Makeup Finish reel">
-            <div class="reel-card-art reel-art-2"></div>
+          <!-- Reel 3: kiki-look4 — Bridal Transformation Glam (was "Soft Glam Process") -->
+          <a class="reel-card reveal" href="https://www.instagram.com/reel/DWEohUzCAOk/" target="_blank" rel="noopener" aria-label="Watch Bridal Transformation Glam reel on Instagram">
+            <img
+              class="reel-card-thumb"
+              src="https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look4-cover-bridal-transformation-glam-NOT-SOFT-PROCESS-GLAM.png"
+              alt="Bridal transformation glam"
+              loading="lazy"
+            >
             <div class="reel-card-overlay"></div>
             <div class="reel-play">▶</div>
             <div class="reel-meta">
-              <span class="reel-label">Party</span>
-              <strong>Party Makeup Finish</strong>
+              <span class="reel-label">Bridal</span>
+              <strong>Bridal Transformation Glam</strong>
             </div>
           </a>
 
-          <a class="reel-card reveal" href="https://www.instagram.com/reel/DWEohUzCAOk/" target="_blank" rel="noopener" aria-label="Watch Soft Glam Process reel">
-            <div class="reel-card-art reel-art-3"></div>
+          <!-- Reel 4: kiki-look7 — Bridal Glam (was "Makeup Training & Technique") -->
+          <a class="reel-card reveal" href="https://www.instagram.com/reel/DRz12jpDYYB/" target="_blank" rel="noopener" aria-label="Watch Bridal Glam reel on Instagram">
+            <img
+              class="reel-card-thumb"
+              src="https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look7-cover-bridal-glam-NOT-MAKEUP-TRAINING.png"
+              alt="Bridal glam makeup look"
+              loading="lazy"
+            >
             <div class="reel-card-overlay"></div>
             <div class="reel-play">▶</div>
             <div class="reel-meta">
-              <span class="reel-label">Soft glam</span>
-              <strong>Soft Glam Process</strong>
+              <span class="reel-label">Bridal</span>
+              <strong>Bridal Glam</strong>
             </div>
           </a>
 
-          <a class="reel-card reveal" href="https://www.instagram.com/reel/DRz12jpDYYB/" target="_blank" rel="noopener" aria-label="Watch Makeup Training reel">
-            <div class="reel-card-art reel-art-4"></div>
+          <!-- Reel 5: kiki-look8 — Traditional Bridal Look (was "Available to Travel") -->
+          <a class="reel-card reveal" href="https://www.instagram.com/reel/DCNHQvhOcnx/" target="_blank" rel="noopener" aria-label="Watch Traditional Bridal Look reel on Instagram">
+            <img
+              class="reel-card-thumb"
+              src="https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look8-cover-Traditional-Bridal-Look-NOT-AVIALABLE-TO-TRAVEL.png"
+              alt="Traditional bridal look"
+              loading="lazy"
+            >
             <div class="reel-card-overlay"></div>
             <div class="reel-play">▶</div>
             <div class="reel-meta">
-              <span class="reel-label">Training</span>
-              <strong>Makeup Training & Technique</strong>
-            </div>
-          </a>
-
-          <a class="reel-card reveal" href="https://www.instagram.com/reel/DCNHQvhOcnx/" target="_blank" rel="noopener" aria-label="Watch Travel Bookings reel">
-            <div class="reel-card-art reel-art-5"></div>
-            <div class="reel-card-overlay"></div>
-            <div class="reel-play">▶</div>
-            <div class="reel-meta">
-              <span class="reel-label">Travel</span>
-              <strong>Available to Travel</strong>
+              <span class="reel-label">Bridal</span>
+              <strong>Traditional Bridal Look</strong>
             </div>
           </a>
 
@@ -595,8 +720,14 @@
       </div>
     </section>
 
-    <!-- PROCESS -->
+    <!-- PROCESS — background: look3 image -->
     <section id="process">
+      <!-- Section background layer -->
+      <div class="section-bg-layer" aria-hidden="true">
+        <div class="section-bg-img" style="background-image: url('https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look3-edo-background.png'); animation-delay: 4s;"></div>
+        <div class="section-bg-overlay" style="background: rgba(10,8,6,0.82);"></div>
+      </div>
+
       <div class="container">
         <div class="process-layout">
           <div class="process-panel reveal">
@@ -631,10 +762,10 @@
               </div>
             </div>
           </div>
-          <div class="process-img reveal">
-            <video autoplay muted loop playsinline preload="auto"
-              src="https://www.w3schools.com/html/mov_bbb.mp4">
-            </video>
+
+          <!-- Process image panel: background image (look1), no video -->
+          <div class="process-img reveal"
+            style="background-image: url('https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/Kiki-look1-background.png');">
             <div class="process-img-content">
               <div class="process-img-inner">
                 <div class="video-play-large">▶</div>
@@ -648,7 +779,7 @@
       </div>
     </section>
 
-    <!-- BOOKING -->
+    <!-- BOOKING — background: look2 image -->
     <section id="booking">
       <div class="container">
         <div class="booking-wrap reveal">
@@ -668,10 +799,9 @@
               <a class="btn-ghost" href="https://www.instagram.com/glamsbykiki/" target="_blank" rel="noopener">Visit Instagram</a>
             </div>
           </div>
-          <div class="booking-img">
-            <video autoplay muted loop playsinline preload="auto"
-              src="https://www.w3schools.com/html/mov_bbb.mp4">
-            </video>
+          <!-- Booking image panel: background image (look2), no video -->
+          <div class="booking-img"
+            style="background-image: url('https://raw.githubusercontent.com/builtbysammie/GlambyKiki/main/kiki-look2-background.png');">
           </div>
         </div>
       </div>
@@ -687,7 +817,9 @@
   </main>
 
   <script>
-    // LOADER
+    /* =====================
+       LOADER
+    ===================== */
     const loader = document.getElementById('loader');
     const MIN_DISPLAY = 1600;
     const start = Date.now();
@@ -700,6 +832,8 @@
           loader.style.display = 'none';
           document.querySelector('.hero-copy')?.classList.add('enter');
           document.querySelector('.hero-card-wrap')?.classList.add('enter');
+          // Start slideshow after loader gone
+          initSlideshow();
         }, 1000);
       }, remaining);
     }
@@ -708,38 +842,114 @@
     } else {
       dismissLoader();
     }
+    // Hard fallback
     setTimeout(() => {
       if (loader && loader.style.display !== 'none') {
         loader.classList.add('fade-out');
-        setTimeout(() => { loader.style.display = 'none'; }, 800);
+        setTimeout(() => { loader.style.display = 'none'; initSlideshow(); }, 800);
       }
     }, 3200);
 
-    // CURSOR
+    /* =====================
+       HERO SLIDESHOW
+    ===================== */
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    const heroSlideDots = document.querySelectorAll('.hero-slide-dot');
+    let heroIdx = 0;
+    let slideshowTimer = null;
+    const SLIDE_DURATION = 7000; // ms per slide
+    const isMobile = () => window.innerWidth <= 640;
+
+    function restartPan(slide) {
+      // Remove and re-add class to restart CSS animation
+      slide.classList.remove('pan-active');
+      // Force reflow
+      void slide.offsetWidth;
+      slide.classList.add('pan-active');
+    }
+
+    function goToSlide(idx) {
+      // Deactivate current
+      heroSlides[heroIdx].classList.remove('active');
+      if (isMobile()) heroSlides[heroIdx].classList.remove('pan-active');
+      heroSlideDots[heroIdx].classList.remove('active');
+
+      heroIdx = idx;
+
+      // Activate new
+      heroSlides[heroIdx].classList.add('active');
+      heroSlideDots[heroIdx].classList.add('active');
+
+      if (isMobile()) {
+        restartPan(heroSlides[heroIdx]);
+      }
+    }
+
+    function nextSlide() {
+      goToSlide((heroIdx + 1) % heroSlides.length);
+    }
+
+    function initSlideshow() {
+      // Activate first slide's pan on mobile
+      if (isMobile()) {
+        heroSlides[0].classList.add('pan-active');
+      }
+      // Start auto-advance
+      slideshowTimer = setInterval(nextSlide, SLIDE_DURATION);
+    }
+
+    // Dot click navigation
+    heroSlideDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const targetIdx = parseInt(dot.dataset.slide);
+        if (targetIdx === heroIdx) return;
+        clearInterval(slideshowTimer);
+        goToSlide(targetIdx);
+        slideshowTimer = setInterval(nextSlide, SLIDE_DURATION);
+      });
+    });
+
+    // Re-handle resize (desktop ↔ mobile switch)
+    window.addEventListener('resize', () => {
+      if (!isMobile()) {
+        heroSlides.forEach(s => s.classList.remove('pan-active'));
+        heroSlides[heroIdx].classList.add('active');
+      } else {
+        restartPan(heroSlides[heroIdx]);
+      }
+    }, { passive: true });
+
+    /* =====================
+       CURSOR
+    ===================== */
     const dot = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
     let mx = 0, my = 0, rx = 0, ry = 0;
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      if (dot) { dot.style.left = mx + 'px'; dot.style.top = my + 'px'; }
     });
     (function animRing() {
       rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; }
       requestAnimationFrame(animRing);
     })();
-    document.querySelectorAll('a, button, .reel-card, .service-card').forEach(el => {
+    document.querySelectorAll('a, button, .reel-card, .service-card, .hero-slide-dot').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
 
-    // NAV SCROLL
+    /* =====================
+       NAV SCROLL
+    ===================== */
     const nav = document.getElementById('mainNav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
 
-    // REVEAL
+    /* =====================
+       SCROLL REVEAL
+    ===================== */
     const reveals = document.querySelectorAll('.reveal');
     const revealObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -747,38 +957,6 @@
       });
     }, { threshold: 0.1 });
     reveals.forEach(el => revealObs.observe(el));
-
-    // Attempt to load Instagram thumbnail images via oembed proxy into reel cards
-    // Instagram's oembed endpoint returns thumbnail_url we can inject
-    const reelData = [
-      { href: "https://www.instagram.com/reel/DX6TN4otUcj/", shortcode: "DX6TN4otUcj" },
-      { href: "https://www.instagram.com/reel/DXMekKLiBNO/", shortcode: "DXMekKLiBNO" },
-      { href: "https://www.instagram.com/reel/DWEohUzCAOk/", shortcode: "DWEohUzCAOk" },
-      { href: "https://www.instagram.com/reel/DRz12jpDYYB/", shortcode: "DRz12jpDYYB" },
-      { href: "https://www.instagram.com/reel/DCNHQvhOcnx/", shortcode: "DCNHQvhOcnx" },
-    ];
-
-    const reelCards = document.querySelectorAll('.reel-card');
-
-    reelData.forEach((reel, i) => {
-      const card = reelCards[i];
-      if (!card) return;
-      const art = card.querySelector('.reel-card-art');
-      // Try to load thumbnail from Instagram oembed (works without auth for public posts)
-      fetch(`https://graph.facebook.com/v18.0/instagram_oembed?url=${encodeURIComponent(reel.href)}&maxwidth=400`)
-        .then(r => r.json())
-        .then(data => {
-          if (data && data.thumbnail_url) {
-            const img = document.createElement('img');
-            img.src = data.thumbnail_url;
-            img.className = 'reel-card-thumb';
-            img.alt = '';
-            img.loading = 'lazy';
-            if (art) art.replaceWith(img);
-          }
-        })
-        .catch(() => {}); // fail silently — art gradient stays
-    });
   </script>
 
 </body>
