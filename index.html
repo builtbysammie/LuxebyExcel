@@ -13,1361 +13,1233 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0b0706;
-      --bg-soft: #140d0b;
-      --cream: #fff6eb;
-      --muted: rgba(255, 246, 235, 0.72);
-      --faint: rgba(255, 246, 235, 0.12);
-      --gold: #d6a95d;
-      --gold-soft: #f7d896;
-      --rose: #a9554b;
-      --brown: #6b3f2a;
-      --green: #183d30;
-      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
-      --radius: 28px;
-      --max: 1180px;
+      --ink: #0a0806;
+      --ink-2: #110e0b;
+      --ink-3: #1a1410;
+      --parchment: #fdf6ee;
+      --parchment-dim: rgba(253, 246, 238, 0.65);
+      --parchment-ghost: rgba(253, 246, 238, 0.1);
+      --gold: #c9993e;
+      --gold-light: #e8c97a;
+      --gold-pale: rgba(232, 201, 122, 0.18);
+      --rose: #9e4e45;
+      --sepia: #5c3a22;
+      --r: 32px;
+      --max: 1200px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
 
     body {
-      font-family: "Inter", sans-serif;
-      background:
-        radial-gradient(circle at 15% 10%, rgba(214, 169, 93, 0.16), transparent 28%),
-        radial-gradient(circle at 90% 12%, rgba(169, 85, 75, 0.15), transparent 25%),
-        linear-gradient(180deg, #0b0706 0%, #120b09 42%, #080504 100%);
-      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      color: var(--parchment);
       overflow-x: hidden;
+      cursor: none;
     }
 
-    body.no-scroll {
-      overflow: hidden;
+    /* ── CURSOR ── */
+    .cursor {
+      position: fixed;
+      z-index: 99999;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--parchment);
+      position: fixed;
+      top: 0; left: 0;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s linear;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(253,246,238,0.55);
+      position: fixed;
+      top: 0; left: 0;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, transform 0.12s linear, border-color 0.25s ease;
+    }
+    body.cursor-hover .cursor-ring {
+      width: 56px; height: 56px;
+      border-color: var(--gold-light);
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
+    img { width: 100%; display: block; }
+    button { border: none; background: none; cursor: none; font-family: inherit; }
 
-    img {
-      width: 100%;
-      display: block;
-    }
-
-    .loader {
+    /* ── LOADER ── */
+    #loader {
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background:
-        radial-gradient(circle at 50% 45%, rgba(214, 169, 93, 0.22), transparent 30%),
-        #080504;
       display: grid;
       place-items: center;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
-    }
-
-    .loader.hide {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .loader-inner {
-      text-align: center;
-      padding: 28px;
-    }
-
-    .loader-mark {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 246, 235, 0.22);
-      margin: 0 auto 22px;
-      display: grid;
-      place-items: center;
-      position: relative;
+      background: var(--ink);
       overflow: hidden;
-      box-shadow: 0 0 70px rgba(214, 169, 93, 0.22);
     }
 
-    .loader-mark::before {
-      content: "";
+    #loader .l-bg {
       position: absolute;
-      width: 160%;
-      height: 160%;
-      background: conic-gradient(transparent, var(--gold), transparent, var(--rose), transparent);
-      animation: spin 1.8s linear infinite;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 55% at 50% 60%, rgba(201,153,62,0.14), transparent 65%);
     }
 
-    .loader-mark::after {
-      content: "LX";
+    #loader .l-inner {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+    }
+
+    #loader .l-oval {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      border: 1px solid rgba(253,246,238,0.15);
+      margin: 0 auto 28px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    #loader .l-oval::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 0%, var(--gold) 30%, transparent 60%);
+      animation: loaderSpin 1.6s linear infinite;
+    }
+
+    #loader .l-oval::after {
+      content: '';
       position: absolute;
       inset: 8px;
       border-radius: 50%;
-      background: #080504;
-      display: grid;
-      place-items: center;
-      font-family: "Cormorant Garamond", serif;
-      font-size: 34px;
-      color: var(--gold-soft);
-      letter-spacing: -0.04em;
+      background: var(--ink);
     }
 
-    .loader-title {
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(36px, 7vw, 72px);
-      line-height: 0.9;
+    #loader .l-monogram {
+      position: relative;
+      z-index: 2;
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-style: italic;
+      color: var(--gold-light);
+      letter-spacing: -0.03em;
+    }
+
+    #loader .l-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 8vw, 78px);
+      font-weight: 400;
+      line-height: 0.88;
       letter-spacing: -0.05em;
-    }
-
-    .loader-line {
-      width: 220px;
-      height: 1px;
-      background: rgba(255, 246, 235, 0.18);
-      margin: 18px auto 0;
       overflow: hidden;
     }
 
-    .loader-line span {
+    #loader .l-title span {
       display: block;
+      transform: translateY(110%);
+      animation: liftIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    #loader .l-title span:nth-child(2) { animation-delay: 0.12s; }
+
+    #loader .l-rule {
+      width: 1px;
+      height: 0;
+      background: linear-gradient(180deg, transparent, var(--gold), transparent);
+      margin: 22px auto;
+      animation: growRule 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
+    }
+
+    #loader .l-sub {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--parchment-dim);
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.8s forwards;
+    }
+
+    #loader .l-progress {
+      width: 180px;
+      height: 1px;
+      background: rgba(253,246,238,0.1);
+      margin: 30px auto 0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    #loader .l-progress-fill {
       height: 100%;
-      width: 40%;
-      background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
-      animation: loadLine 1.35s ease-in-out infinite;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 999px;
+      animation: fillProgress 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    @keyframes loaderSpin { to { transform: rotate(360deg); } }
+    @keyframes liftIn {
+      to { transform: translateY(0); }
+    }
+    @keyframes growRule {
+      to { height: 48px; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fillProgress {
+      to { width: 100%; }
     }
 
-    @keyframes loadLine {
-      0% { transform: translateX(-110%); }
-      100% { transform: translateX(280%); }
-    }
-
-    .noise {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      opacity: 0.22;
+    #loader.fade-out {
+      opacity: 0;
       pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
-      mix-blend-mode: soft-light;
+      transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .site {
-      position: relative;
-      z-index: 2;
+    /* ── NOISE OVERLAY ── */
+    .noise {
+      position: fixed; inset: 0; z-index: 3;
+      pointer-events: none; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
     }
 
-    .container {
-      max-width: var(--max);
-      width: calc(100% - 36px);
-      margin: 0 auto;
-    }
+    /* ── SITE WRAPPER ── */
+    .site { position: relative; z-index: 4; }
+    .container { max-width: var(--max); width: calc(100% - 40px); margin: 0 auto; }
 
+    /* ── NAV ── */
     .nav {
       position: fixed;
-      top: 16px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 20;
-      width: min(1120px, calc(100% - 28px));
+      z-index: 100;
+      width: min(1160px, calc(100% - 32px));
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 14px 12px 18px;
-      border: 1px solid rgba(255, 246, 235, 0.12);
+      padding: 14px 16px 14px 20px;
+      border: 1px solid rgba(253,246,238,0.1);
       border-radius: 999px;
-      background: rgba(11, 7, 6, 0.58);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+      background: rgba(10,8,6,0.55);
+      backdrop-filter: blur(24px) saturate(1.4);
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(10,8,6,0.85);
+      border-color: rgba(253,246,238,0.16);
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
+      display: flex; align-items: center; gap: 11px;
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      letter-spacing: -0.02em;
     }
 
     .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--gold-soft), var(--brown));
-      color: #140d0b;
-      font-family: "Cormorant Garamond", serif;
-      font-size: 19px;
-      font-weight: 700;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      display: grid; place-items: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 18px; color: var(--ink);
+      flex-shrink: 0;
     }
 
     .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      color: rgba(255, 246, 235, 0.76);
-      font-size: 13px;
-      font-weight: 700;
+      display: flex; align-items: center; gap: 26px;
+      font-size: 13px; font-weight: 500;
+      color: var(--parchment-dim);
+      letter-spacing: 0.02em;
     }
-
     .nav-links a {
+      position: relative;
       transition: color 0.25s ease;
     }
-
-    .nav-links a:hover {
-      color: var(--cream);
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
     }
+    .nav-links a:hover { color: var(--parchment); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
 
-    .nav-cta,
-    .btn {
-      border: 1px solid rgba(255, 246, 235, 0.15);
+    .btn-book {
+      padding: 11px 20px;
       border-radius: 999px;
-      padding: 12px 18px;
-      background: linear-gradient(135deg, var(--cream), var(--gold-soft));
-      color: #140d0b;
-      font-size: 13px;
-      font-weight: 900;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 14px 35px rgba(214, 169, 93, 0.18);
-      cursor: pointer;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 8px 30px rgba(201,153,62,0.22);
     }
-
-    .btn:hover,
-    .nav-cta:hover {
+    .btn-book:hover {
       transform: translateY(-2px);
-      box-shadow: 0 22px 50px rgba(214, 169, 93, 0.25);
+      box-shadow: 0 16px 40px rgba(201,153,62,0.34);
     }
 
-    .btn.secondary {
-      background: rgba(255, 246, 235, 0.06);
-      color: var(--cream);
-      box-shadow: none;
-      border-color: rgba(255, 246, 235, 0.16);
-    }
-
+    /* ── HERO ── */
     .hero {
       min-height: 100vh;
       display: grid;
       align-items: end;
-      padding: 118px 0 34px;
+      padding: 100px 0 48px;
       position: relative;
       overflow: hidden;
     }
 
     .hero-bg {
-      position: absolute;
-      inset: 0;
-      z-index: -2;
+      position: absolute; inset: 0; z-index: -1;
+    }
+    .hero-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      transform-origin: center;
+      animation: slowZoom 18s ease-in-out infinite alternate;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(105deg, rgba(10,8,6,0.95) 0%, rgba(10,8,6,0.75) 45%, rgba(10,8,6,0.28) 100%),
+        linear-gradient(0deg, rgba(10,8,6,1) 0%, rgba(10,8,6,0) 38%);
     }
 
-    .hero-bg img {
+    @keyframes slowZoom {
+      from { transform: scale(1.0); }
+      to   { transform: scale(1.07); }
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr min(380px, 35%);
+      gap: 48px;
+      align-items: end;
+    }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold-light);
+      border: 1px solid rgba(232,201,122,0.25);
+      background: rgba(201,153,62,0.08);
+      margin-bottom: 22px;
+    }
+    .tag-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--gold-light);
+      box-shadow: 0 0 14px var(--gold-light);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 14px var(--gold-light); }
+      50% { opacity: 0.5; box-shadow: 0 0 4px var(--gold-light); }
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(68px, 10.5vw, 148px);
+      font-weight: 400;
+      line-height: 0.82;
+      letter-spacing: -0.07em;
+      max-width: 900px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-desc {
+      margin: 30px 0 32px;
+      color: var(--parchment-dim);
+      font-size: clamp(15px, 1.6vw, 18px);
+      line-height: 1.8;
+      max-width: 560px;
+      font-weight: 300;
+    }
+
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+
+    .btn-primary {
+      padding: 15px 28px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--ink);
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 12px 40px rgba(201,153,62,0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(201,153,62,0.38);
+    }
+
+    .btn-ghost {
+      padding: 14px 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(253,246,238,0.2);
+      color: var(--parchment);
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: border-color 0.25s, background 0.25s;
+      background: rgba(253,246,238,0.04);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(253,246,238,0.45);
+      background: rgba(253,246,238,0.08);
+    }
+
+    /* Stats strip */
+    .stats {
+      display: flex;
+      gap: 0;
+      margin-top: 48px;
+      border: 1px solid rgba(253,246,238,0.1);
+      border-radius: 24px;
+      overflow: hidden;
+      width: fit-content;
+    }
+    .stat {
+      padding: 18px 28px;
+      border-right: 1px solid rgba(253,246,238,0.1);
+      background: rgba(26,20,16,0.55);
+      backdrop-filter: blur(12px);
+    }
+    .stat:last-child { border-right: none; }
+    .stat strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat span {
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(253,246,238,0.5);
+      font-weight: 600;
+    }
+
+    /* Hero aside card */
+    .hero-card {
+      border-radius: var(--r);
+      border: 1px solid rgba(253,246,238,0.12);
+      background: rgba(26,20,16,0.72);
+      backdrop-filter: blur(24px);
+      padding: 16px;
+      box-shadow: 0 40px 90px rgba(0,0,0,0.45);
+      align-self: end;
+    }
+    .hero-card-img {
+      border-radius: 22px;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .hero-card-img img {
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      filter: saturate(1.05) contrast(1.06);
-      animation: heroFloat 12s ease-in-out infinite alternate;
+      transition: transform 1s ease;
     }
-
-    .hero-bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(8, 5, 4, 0.96) 0%, rgba(8, 5, 4, 0.72) 42%, rgba(8, 5, 4, 0.2) 100%),
-        linear-gradient(180deg, rgba(8, 5, 4, 0.38) 0%, rgba(8, 5, 4, 0.35) 42%, #0b0706 100%);
-    }
-
-    @keyframes heroFloat {
-      from { transform: scale(1.02) translateY(0); }
-      to { transform: scale(1.08) translateY(-18px); }
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.02fr) minmax(300px, 0.72fr);
-      gap: 40px;
-      align-items: end;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
-      border-radius: 999px;
-      color: var(--gold-soft);
-      background: rgba(214, 169, 93, 0.1);
-      border: 1px solid rgba(214, 169, 93, 0.2);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      margin-bottom: 18px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--gold-soft);
-      box-shadow: 0 0 20px var(--gold-soft);
-    }
-
-    h1 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(66px, 11vw, 150px);
-      line-height: 0.77;
-      letter-spacing: -0.08em;
-      max-width: 850px;
-    }
-
-    .hero p {
-      max-width: 650px;
-      color: var(--muted);
-      font-size: clamp(16px, 2vw, 20px);
-      line-height: 1.75;
-      margin: 28px 0 28px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .hero-card {
-      border-radius: var(--radius);
-      border: 1px solid rgba(255, 246, 235, 0.14);
-      background: rgba(20, 13, 11, 0.68);
-      backdrop-filter: blur(20px);
-      padding: 18px;
-      box-shadow: var(--shadow);
-      max-width: 420px;
-      justify-self: end;
-    }
-
-    .hero-card img {
-      border-radius: 22px;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-      object-position: center top;
-      margin-bottom: 16px;
-    }
-
+    .hero-card:hover .hero-card-img img { transform: scale(1.04); }
     .hero-card h3 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 34px;
-      line-height: 1;
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 400;
       letter-spacing: -0.04em;
+      line-height: 1.1;
       margin-bottom: 8px;
     }
-
     .hero-card p {
-      margin: 0;
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.7;
+      color: var(--parchment-dim);
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      margin-top: 34px;
-      border-radius: 24px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 246, 235, 0.1);
-      background: rgba(255, 246, 235, 0.08);
-      max-width: 760px;
-    }
+    /* ── SECTIONS ── */
+    section { padding: 120px 0; position: relative; }
 
-    .stat {
-      padding: 18px;
-      background: rgba(8, 5, 4, 0.46);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 24px;
-      color: var(--gold-soft);
-      margin-bottom: 4px;
-      letter-spacing: -0.04em;
-    }
-
-    .stat span {
+    .kicker {
       font-size: 11px;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: rgba(255, 246, 235, 0.62);
-      font-weight: 800;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
     }
 
-    section {
-      padding: 110px 0;
-      position: relative;
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 26px;
-      align-items: end;
-      margin-bottom: 34px;
-    }
-
-    .section-kicker {
-      color: var(--gold-soft);
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 12px;
-      font-weight: 900;
-      margin-bottom: 12px;
-    }
-
-    h2 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(44px, 7vw, 86px);
-      line-height: 0.9;
+    h2.display {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(46px, 7vw, 90px);
+      font-weight: 400;
+      line-height: 0.88;
       letter-spacing: -0.065em;
-      max-width: 760px;
     }
 
-    .section-copy {
-      color: var(--muted);
-      line-height: 1.8;
-      max-width: 430px;
+    .section-lead {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: end;
+      margin-bottom: 56px;
+    }
+    .section-note {
       font-size: 15px;
+      line-height: 1.85;
+      color: var(--parchment-dim);
+      font-weight: 300;
+      padding-bottom: 6px;
     }
 
-    .services {
+    /* ── SERVICES ── */
+    .services-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
     }
 
     .service-card {
-      min-height: 260px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255, 246, 235, 0.12);
-      padding: 24px;
-      background:
-        linear-gradient(180deg, rgba(255, 246, 235, 0.08), rgba(255, 246, 235, 0.025)),
-        rgba(20, 13, 11, 0.65);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-    }
-
-    .service-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(214, 169, 93, 0.45);
-    }
-
-    .service-card::after {
-      content: "";
-      position: absolute;
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      background: rgba(214, 169, 93, 0.12);
-      right: -70px;
-      bottom: -70px;
-      filter: blur(2px);
-    }
-
-    .service-number {
-      color: var(--gold-soft);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0.16em;
-      margin-bottom: 56px;
-      display: block;
-    }
-
-    .service-card h3 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 34px;
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-      margin-bottom: 14px;
-    }
-
-    .service-card p {
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: 14px;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr 1fr;
-      grid-auto-rows: 260px;
-      gap: 14px;
-    }
-
-    .look {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--bg-soft);
-      border: 1px solid rgba(255, 246, 235, 0.1);
-      box-shadow: var(--shadow);
-    }
-
-    .look.big {
-      grid-row: span 2;
-    }
-
-    .look.wide {
-      grid-column: span 2;
-    }
-
-    .look img {
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      transition: transform 0.8s ease;
-    }
-
-    .look:hover img {
-      transform: scale(1.06);
-    }
-
-    .look::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 35%, rgba(8, 5, 4, 0.78));
-    }
-
-    .look-label {
-      position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 18px;
-      z-index: 2;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: end;
-    }
-
-    .look-label strong {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 29px;
-      letter-spacing: -0.04em;
-      line-height: 0.95;
-    }
-
-    .look-label span {
-      color: var(--gold-soft);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .experience {
-      display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
-      gap: 16px;
-      align-items: stretch;
-    }
-
-    .experience-panel {
-      border-radius: var(--radius);
-      border: 1px solid rgba(255, 246, 235, 0.12);
-      background: rgba(20, 13, 11, 0.72);
-      padding: 30px;
-      min-height: 520px;
+      border-radius: var(--r);
+      border: 1px solid rgba(253,246,238,0.08);
+      background: rgba(26,20,16,0.6);
+      padding: 28px 24px;
+      min-height: 280px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.2,0.9,0.2,1), border-color 0.3s ease;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 130px;
+      background: linear-gradient(180deg, transparent, rgba(201,153,62,0.07));
+      pointer-events: none;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(232,201,122,0.3);
     }
 
-    .experience-panel h2 {
-      font-size: clamp(44px, 6vw, 74px);
+    .service-num {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      font-weight: 700;
+      display: block;
+      margin-bottom: auto;
     }
 
-    .steps {
+    .service-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+      margin-top: 42px;
+    }
+
+    .service-card p {
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: var(--parchment-dim);
+    }
+
+    /* ── GALLERY ── */
+    .gallery-grid {
       display: grid;
+      grid-template-columns: 1.2fr 0.9fr 1fr;
+      grid-auto-rows: 270px;
       gap: 12px;
-      margin-top: 24px;
     }
+    .look {
+      border-radius: var(--r);
+      overflow: hidden;
+      position: relative;
+      background: var(--ink-2);
+      border: 1px solid rgba(253,246,238,0.07);
+    }
+    .look.tall { grid-row: span 2; }
+    .look.wide { grid-column: span 2; }
+
+    .look img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 1.1s cubic-bezier(0.2,0.9,0.2,1);
+    }
+    .look:hover img { transform: scale(1.08); }
+
+    .look::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10,8,6,0) 45%, rgba(10,8,6,0.82) 100%);
+    }
+
+    .look-meta {
+      position: absolute;
+      left: 20px; right: 20px; bottom: 20px;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .look-meta strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .look-meta span {
+      font-size: 10.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ── EXPERIENCE / PROCESS ── */
+    .process-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .process-panel {
+      border-radius: var(--r);
+      border: 1px solid rgba(253,246,238,0.1);
+      background: rgba(26,20,16,0.7);
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 12px; }
 
     .step {
       display: grid;
-      grid-template-columns: 42px 1fr;
-      gap: 14px;
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255, 246, 235, 0.055);
-      border: 1px solid rgba(255, 246, 235, 0.08);
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      padding: 18px 16px;
+      border-radius: 20px;
+      background: rgba(253,246,238,0.04);
+      border: 1px solid rgba(253,246,238,0.07);
+      transition: background 0.3s ease;
+    }
+    .step:hover { background: rgba(253,246,238,0.07); }
+
+    .step-num {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(201,153,62,0.1);
+      border: 1px solid rgba(201,153,62,0.2);
+      display: grid; place-items: center;
+      color: var(--gold-light);
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
     }
 
-    .step b {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(214, 169, 93, 0.12);
-      color: var(--gold-soft);
-      font-size: 13px;
-    }
+    .step strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+    .step span { font-size: 13px; line-height: 1.6; color: var(--parchment-dim); }
 
-    .step strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    .step span {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .feature-image {
-      border-radius: var(--radius);
+    .process-img {
+      border-radius: var(--r);
       overflow: hidden;
-      min-height: 520px;
-      border: 1px solid rgba(255, 246, 235, 0.12);
-      box-shadow: var(--shadow);
       position: relative;
+      border: 1px solid rgba(253,246,238,0.1);
     }
-
-    .feature-image img {
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
+    .process-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
     }
-
-    .feature-image::after {
-      content: "Governor's Road, Ikotun Lagos";
+    .process-img-badge {
       position: absolute;
-      left: 22px;
-      bottom: 22px;
+      left: 20px; bottom: 20px;
+      padding: 10px 16px;
       border-radius: 999px;
-      padding: 10px 14px;
-      background: rgba(8, 5, 4, 0.65);
-      border: 1px solid rgba(255, 246, 235, 0.15);
-      backdrop-filter: blur(12px);
-      color: var(--gold-soft);
-      font-size: 12px;
-      font-weight: 900;
+      background: rgba(10,8,6,0.7);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(253,246,238,0.15);
+      font-size: 11.5px;
+      color: var(--gold-light);
+      font-weight: 600;
       letter-spacing: 0.06em;
     }
 
-    .reel-shell {
+    /* ── REELS ── */
+    .reels-wrap {
       border-radius: 36px;
-      border: 1px solid rgba(255, 246, 235, 0.12);
-      background:
-        radial-gradient(circle at 12% 0%, rgba(214, 169, 93, 0.12), transparent 30%),
-        rgba(20, 13, 11, 0.72);
-      padding: 18px;
-      box-shadow: var(--shadow);
+      border: 1px solid rgba(253,246,238,0.1);
+      background: rgba(26,20,16,0.65);
+      padding: 20px;
       overflow: hidden;
     }
 
-    .reel-top {
+    .reels-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 8px 8px 16px;
+      gap: 20px;
+      padding: 8px 8px 18px;
     }
-
-    .reel-top p {
-      color: var(--muted);
+    .reels-top p {
       font-size: 14px;
-      line-height: 1.7;
-      max-width: 540px;
+      line-height: 1.75;
+      color: var(--parchment-dim);
+      max-width: 500px;
     }
-
-    .reel-controls {
-      display: flex;
-      gap: 8px;
-    }
-
-    .control-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 246, 235, 0.14);
-      background: rgba(255, 246, 235, 0.06);
-      color: var(--cream);
-      cursor: pointer;
-      font-size: 20px;
+    .reel-controls { display: flex; gap: 8px; }
+    .reel-btn {
+      width: 46px; height: 46px; border-radius: 50%;
+      border: 1px solid rgba(253,246,238,0.14);
+      background: rgba(253,246,238,0.05);
+      color: var(--parchment);
+      font-size: 22px;
+      display: grid; place-items: center;
       transition: transform 0.25s ease, background 0.25s ease;
     }
+    .reel-btn:hover { transform: scale(1.08); background: rgba(253,246,238,0.1); }
 
-    .control-btn:hover {
-      transform: translateY(-2px);
-      background: rgba(255, 246, 235, 0.12);
-    }
-
-    .reel-window {
-      overflow: hidden;
-      border-radius: 28px;
-    }
-
-    .reel-track {
-      display: flex;
-      transition: transform 0.5s cubic-bezier(.2,.9,.2,1);
-    }
-
+    .reel-window { overflow: hidden; border-radius: 26px; }
+    .reel-track { display: flex; transition: transform 0.55s cubic-bezier(0.2,0.9,0.2,1); }
     .reel-slide {
       min-width: 100%;
-      display: grid;
-      place-items: center;
-      padding: 18px;
-      background: rgba(255, 246, 235, 0.045);
-      border-radius: 28px;
+      display: grid; place-items: center;
+      padding: 20px;
+      background: rgba(253,246,238,0.03);
+      border-radius: 26px;
     }
 
     .reel-fallback {
-      width: min(460px, 100%);
-      min-height: 560px;
+      width: min(440px, 100%);
+      min-height: 540px;
       border-radius: 24px;
-      border: 1px solid rgba(255, 246, 235, 0.12);
-      display: grid;
-      place-items: center;
+      border: 1px solid rgba(253,246,238,0.1);
+      display: grid; place-items: center;
       text-align: center;
-      padding: 28px;
-      background:
-        radial-gradient(circle at 50% 35%, rgba(214, 169, 93, 0.18), transparent 34%),
-        rgba(8, 5, 4, 0.55);
+      padding: 32px;
+      background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,153,62,0.14), transparent 55%);
     }
-
     .reel-fallback h3 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 44px;
+      font-family: 'Playfair Display', serif;
+      font-size: 42px; font-weight: 400;
       letter-spacing: -0.04em;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
-
-    .reel-fallback p {
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
+    .reel-fallback p { color: var(--parchment-dim); line-height: 1.7; margin-bottom: 24px; font-size: 14px; }
 
     .instagram-media {
       margin: 0 auto !important;
       max-width: 470px !important;
       min-width: 280px !important;
       width: 100% !important;
-      border-radius: 24px !important;
+      border-radius: 22px !important;
       overflow: hidden !important;
     }
 
-    .dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 18px 0 4px;
+    .reel-dots {
+      display: flex; justify-content: center; gap: 7px;
+      padding: 16px 0 4px;
     }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 99px;
-      background: rgba(255, 246, 235, 0.25);
-      border: 0;
-      cursor: pointer;
-      transition: width 0.25s ease, background 0.25s ease;
+    .reel-dot {
+      width: 7px; height: 7px; border-radius: 999px;
+      background: rgba(253,246,238,0.2);
+      transition: width 0.3s ease, background 0.3s ease;
     }
+    .reel-dot.on { width: 26px; background: var(--gold-light); }
 
-    .dot.active {
-      width: 28px;
-      background: var(--gold-soft);
-    }
-
-    .booking {
-      border-radius: 40px;
-      border: 1px solid rgba(255, 246, 235, 0.12);
+    /* ── BOOKING BANNER ── */
+    .booking-wrap {
+      border-radius: 44px;
+      border: 1px solid rgba(253,246,238,0.1);
       overflow: hidden;
-      background:
-        linear-gradient(135deg, rgba(214, 169, 93, 0.12), rgba(169, 85, 75, 0.1)),
-        rgba(20, 13, 11, 0.78);
-      box-shadow: var(--shadow);
       display: grid;
-      grid-template-columns: 1fr 0.78fr;
-    }
-
-    .booking-content {
-      padding: clamp(28px, 5vw, 58px);
-    }
-
-    .booking h2 {
-      max-width: 620px;
-    }
-
-    .booking p {
-      color: var(--muted);
-      line-height: 1.8;
-      margin: 22px 0 28px;
-      max-width: 620px;
-    }
-
-    .booking-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-
-    .booking-list span {
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: rgba(255, 246, 235, 0.06);
-      border: 1px solid rgba(255, 246, 235, 0.08);
-      color: rgba(255, 246, 235, 0.82);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .booking-image {
-      min-height: 460px;
+      grid-template-columns: 1fr 0.82fr;
+      background: rgba(26,20,16,0.75);
       position: relative;
-      overflow: hidden;
     }
 
-    .booking-image img {
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
+    .booking-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(201,153,62,0.12), transparent 55%),
+        radial-gradient(ellipse 40% 50% at 90% 90%, rgba(158,78,69,0.1), transparent 50%);
+      pointer-events: none;
     }
 
-    .booking-image::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(20, 13, 11, 0.84), transparent 48%);
+    .booking-body {
+      padding: clamp(36px, 5vw, 68px);
+      position: relative; z-index: 2;
     }
 
-    footer {
-      padding: 34px 0 48px;
-      color: rgba(255, 246, 235, 0.58);
+    .booking-body h2 { max-width: 580px; margin-bottom: 20px; }
+
+    .booking-body > p {
+      color: var(--parchment-dim);
+      line-height: 1.85;
+      max-width: 540px;
+      margin-bottom: 32px;
+      font-size: 15px;
+    }
+
+    .service-pills {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 36px;
+    }
+    .pill {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(253,246,238,0.12);
+      background: rgba(253,246,238,0.05);
       font-size: 13px;
+      font-weight: 500;
+      color: rgba(253,246,238,0.82);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .pill:hover { border-color: rgba(232,201,122,0.4); background: rgba(201,153,62,0.08); }
+
+    .booking-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .booking-img {
+      min-height: 500px;
+      position: relative; overflow: hidden;
+    }
+    .booking-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+    }
+    .booking-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(26,20,16,0.88), transparent 50%);
     }
 
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 0 44px;
+      color: rgba(253,246,238,0.42);
+      font-size: 12.5px;
+      letter-spacing: 0.04em;
+    }
     .footer-inner {
       display: flex;
       justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-      border-top: 1px solid rgba(255, 246, 235, 0.1);
-      padding-top: 24px;
+      gap: 14px; flex-wrap: wrap;
+      border-top: 1px solid rgba(253,246,238,0.08);
+      padding-top: 22px;
     }
 
+    /* ── REVEAL ANIMATIONS ── */
     .reveal {
       opacity: 0;
-      transform: translateY(26px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(30px);
+      transition: opacity 0.9s cubic-bezier(0.2,0.9,0.2,1), transform 0.9s cubic-bezier(0.2,0.9,0.2,1);
     }
-
-    .reveal.visible {
+    .reveal.in {
       opacity: 1;
-      transform: translateY(0);
+      transform: none;
+    }
+    .reveal:nth-child(2) { transition-delay: 0.08s; }
+    .reveal:nth-child(3) { transition-delay: 0.16s; }
+    .reveal:nth-child(4) { transition-delay: 0.24s; }
+
+    /* ── HERO ENTRANCE ── */
+    .hero-copy { opacity: 0; transform: translateY(28px); }
+    .hero-card-wrap { opacity: 0; transform: translateY(36px); }
+    .hero-copy.enter {
+      animation: heroIn 1.2s cubic-bezier(0.2,0.9,0.2,1) forwards;
+    }
+    .hero-card-wrap.enter {
+      animation: heroIn 1.3s cubic-bezier(0.2,0.9,0.2,1) 0.2s forwards;
+    }
+    @keyframes heroIn {
+      to { opacity: 1; transform: none; }
     }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 980px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        min-height: auto;
-        padding-top: 110px;
-      }
-
-      .hero-grid,
-      .experience,
-      .booking {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-card {
-        justify-self: stretch;
-        max-width: none;
-      }
-
-      .services {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .gallery {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .look.wide {
-        grid-column: span 1;
-      }
-
-      .section-head {
-        display: block;
-      }
-
-      .section-copy {
-        margin-top: 16px;
-      }
+      .nav-links { display: none; }
+      .hero-inner, .process-layout, .booking-wrap { grid-template-columns: 1fr; }
+      .hero-card-wrap { justify-self: stretch; }
+      .hero-card { max-width: 100%; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .look.wide { grid-column: span 1; }
+      .section-lead { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
-      .container {
-        width: calc(100% - 28px);
-      }
-
-      .nav {
-        top: 10px;
-      }
-
-      .nav-cta {
-        padding: 10px 12px;
-        font-size: 12px;
-      }
-
-      .brand span:last-child {
-        max-width: 120px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .hero {
-        padding-top: 96px;
-      }
-
+      body { cursor: auto; }
+      .cursor-dot, .cursor-ring { display: none; }
+      .hero h1 { font-size: clamp(58px, 18vw, 90px); }
       .hero-bg::after {
         background:
-          linear-gradient(180deg, rgba(8, 5, 4, 0.72) 0%, rgba(8, 5, 4, 0.88) 50%, #0b0706 100%);
+          linear-gradient(180deg, rgba(10,8,6,0.8), rgba(10,8,6,0.92) 50%, var(--ink) 100%);
       }
-
-      h1 {
-        font-size: clamp(58px, 20vw, 96px);
-      }
-
-      .hero p {
-        font-size: 15px;
-      }
-
-      .stats,
-      .services,
-      .gallery,
-      .booking-list {
-        grid-template-columns: 1fr;
-      }
-
-      .gallery {
-        grid-auto-rows: 360px;
-      }
-
-      .look.big {
-        grid-row: span 1;
-      }
-
-      section {
-        padding: 76px 0;
-      }
-
-      .service-card {
-        min-height: 220px;
-      }
-
-      .reel-top {
-        align-items: flex-start;
-      }
-
-      .reel-top p {
-        font-size: 13px;
-      }
-
-      .reel-slide {
-        padding: 10px;
-      }
-
-      .reel-fallback {
-        min-height: 500px;
-      }
-
-      .footer-inner {
-        display: block;
-      }
-
-      .footer-inner p + p {
-        margin-top: 10px;
-      }
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 350px; }
+      .look.tall { grid-row: span 1; }
+      .stats { flex-direction: column; width: 100%; }
+      .stat { border-right: none; border-bottom: 1px solid rgba(253,246,238,0.1); }
+      .stat:last-child { border-bottom: none; }
+      section { padding: 80px 0; }
+      .booking-img { min-height: 320px; }
+      .reels-top { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
+<body>
 
-<body class="no-scroll">
-  <div class="loader" id="loader">
-    <div class="loader-inner">
-      <div class="loader-mark"></div>
-      <div class="loader-title">Luxeby Excel</div>
-      <div class="loader-line"><span></span></div>
+  <!-- CURSOR -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LOADER -->
+  <div id="loader" aria-hidden="true">
+    <div class="l-bg"></div>
+    <div class="l-inner">
+      <div class="l-oval">
+        <span class="l-monogram">LX</span>
+      </div>
+      <div class="l-title">
+        <span>Luxeby</span>
+        <span>Excel</span>
+      </div>
+      <div class="l-rule"></div>
+      <div class="l-sub">Lagos &nbsp;·&nbsp; Makeup & Gele Artistry</div>
+      <div class="l-progress"><div class="l-progress-fill"></div></div>
     </div>
   </div>
 
-  <div class="noise"></div>
+  <div class="noise" aria-hidden="true"></div>
 
   <main class="site">
-    <nav class="nav">
-      <a class="brand" href="#top" aria-label="Luxeby Excel home">
-        <span class="brand-mark">LX</span>
+
+    <!-- NAV -->
+    <nav class="nav" id="mainNav">
+      <a class="brand" href="#top">
+        <span class="brand-mark">𝐿</span>
         <span>Luxeby Excel</span>
       </a>
-
       <div class="nav-links">
         <a href="#services">Services</a>
         <a href="#looks">Looks</a>
-        <a href="#transformations">Transformations</a>
+        <a href="#reels">Transformations</a>
         <a href="#booking">Booking</a>
       </div>
-
-      <!-- Replace the WhatsApp number below with their real booking number -->
-      <a class="nav-cta" href="https://wa.me/2340000000000" target="_blank" rel="noopener">Book Glam</a>
+      <a class="btn-book" href="https://wa.me/2340000000000" target="_blank" rel="noopener">Book Glam ↗</a>
     </nav>
 
+    <!-- HERO -->
     <header class="hero" id="top">
       <div class="hero-bg">
         <img src="luxe-look5-brown-HERO-IMAGE.jpg" alt="Premium bridal makeup look by Luxeby Excel">
       </div>
 
-      <div class="container hero-grid">
-        <div class="hero-copy reveal">
-          <span class="eyebrow">Makeup, Gele & Beauty Education in Lagos</span>
-          <h1>Soft glam. Bridal polish. Luxe beauty.</h1>
-          <p>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <div class="tag"><span class="tag-dot"></span>Makeup · Gele · Bridal · Lagos</div>
+          <h1>Soft glam.<br><em>Polished</em><br>beauty.</h1>
+          <p class="hero-desc">
             Luxeby Excel creates refined makeup and gele looks for brides, events, shoots, and women who want to look unforgettable without losing their natural elegance.
           </p>
-
           <div class="hero-actions">
-            <a class="btn" href="#booking">Start Booking</a>
-            <a class="btn secondary" href="#looks">View Signature Looks</a>
+            <a class="btn-primary" href="#booking">Book Your Glam</a>
+            <a class="btn-ghost" href="#looks">View Looks</a>
           </div>
-
           <div class="stats">
-            <div class="stat">
-              <strong>247</strong>
-              <span>Instagram Posts</span>
-            </div>
-            <div class="stat">
-              <strong>Lagos</strong>
-              <span>Studio Based</span>
-            </div>
-            <div class="stat">
-              <strong>Bridal</strong>
-              <span>Events & Glam</span>
-            </div>
-            <div class="stat">
-              <strong>Training</strong>
-              <span>Makeup Education</span>
-            </div>
+            <div class="stat"><strong>247+</strong><span>Posts</span></div>
+            <div class="stat"><strong>Lagos</strong><span>Studio</span></div>
+            <div class="stat"><strong>Bridal</strong><span>Events</span></div>
+            <div class="stat"><strong>Training</strong><span>Education</span></div>
           </div>
         </div>
 
-        <aside class="hero-card reveal">
-          <img src="luxe-look6-brown.jpg" alt="Brown-toned makeup look by Luxeby Excel">
-          <h3>Beauty that photographs beautifully.</h3>
-          <p>
-            Built for weddings, birthdays, events, shoots, and intimate glam appointments across Lagos.
-          </p>
-        </aside>
+        <div class="hero-card-wrap">
+          <div class="hero-card">
+            <div class="hero-card-img">
+              <img src="luxe-look6-brown.jpg" alt="Brown-toned makeup look by Luxeby Excel">
+            </div>
+            <h3>Beauty that photographs beautifully.</h3>
+            <p>Built for weddings, birthdays, events, shoots, and intimate glam appointments across Lagos.</p>
+          </div>
+        </div>
       </div>
     </header>
 
+    <!-- SERVICES -->
     <section id="services">
       <div class="container">
-        <div class="section-head reveal">
+        <div class="section-lead reveal">
           <div>
-            <div class="section-kicker">What she offers</div>
-            <h2>Glam services with a polished studio feel.</h2>
+            <div class="kicker">What she offers</div>
+            <h2 class="display">Glam done with intention.</h2>
           </div>
-          <p class="section-copy">
-            The site positions Luxeby Excel as more than an Instagram page. It gives clients one clear place to understand the services, see the looks, and start a booking conversation.
+          <p class="section-note">
+            Each service is approached with precision, warmth, and a commitment to a result that holds beautifully both in person and in photographs.
           </p>
         </div>
 
-        <div class="services">
+        <div class="services-grid">
           <article class="service-card reveal">
-            <span class="service-number">01</span>
-            <h3>Bridal Glam</h3>
-            <p>Elegant wedding makeup and gele styling for traditional, court, white wedding, and reception moments.</p>
+            <span class="service-num">01</span>
+            <div>
+              <h3>Bridal Glam</h3>
+              <p>Elegant wedding makeup and gele styling for traditional, court, white wedding, and reception moments.</p>
+            </div>
           </article>
-
           <article class="service-card reveal">
-            <span class="service-number">02</span>
-            <h3>Event Makeup</h3>
-            <p>Clean, camera-ready looks for birthdays, dinners, shoots, church events, parties, and celebrations.</p>
+            <span class="service-num">02</span>
+            <div>
+              <h3>Event Makeup</h3>
+              <p>Clean, camera-ready looks for birthdays, dinners, shoots, church events, parties, and celebrations.</p>
+            </div>
           </article>
-
           <article class="service-card reveal">
-            <span class="service-number">03</span>
-            <h3>Gele Styling</h3>
-            <p>Structured, polished gele finishing that complements the face, outfit, and overall event presence.</p>
+            <span class="service-num">03</span>
+            <div>
+              <h3>Gele Styling</h3>
+              <p>Structured, polished gele finishing that complements the face, outfit, and overall event presence.</p>
+            </div>
           </article>
-
           <article class="service-card reveal">
-            <span class="service-number">04</span>
-            <h3>Makeup Training</h3>
-            <p>Beauty education for learners who want practical makeup skills, technique, confidence, and brand direction.</p>
+            <span class="service-num">04</span>
+            <div>
+              <h3>Makeup Training</h3>
+              <p>Practical beauty education for learners who want technique, confidence, and real brand direction.</p>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- GALLERY / LOOKS -->
     <section id="looks">
       <div class="container">
-        <div class="section-head reveal">
+        <div class="section-lead reveal">
           <div>
-            <div class="section-kicker">Selected looks</div>
-            <h2>A curated gallery of finished glam.</h2>
+            <div class="kicker">Selected looks</div>
+            <h2 class="display">A curated lookbook.</h2>
           </div>
-          <p class="section-copy">
-            Since the brand has six strong look photos, the website should use them like a luxury lookbook instead of forcing weak before-and-after content.
+          <p class="section-note">
+            Six signature looks shot and styled to show the range — from emerald editorial to warm bridal glow.
           </p>
         </div>
 
-        <div class="gallery">
-          <article class="look big reveal">
-            <img src="luxe-look1-green.jpg" alt="Green outfit makeup look by Luxeby Excel">
-            <div class="look-label">
-              <strong>Emerald Soft Glam</strong>
-              <span>Look 01</span>
-            </div>
+        <div class="gallery-grid">
+          <article class="look tall reveal">
+            <img src="luxe-look1-green.jpg" alt="Emerald soft glam by Luxeby Excel">
+            <div class="look-meta"><strong>Emerald Soft Glam</strong><span>01</span></div>
           </article>
-
           <article class="look reveal">
-            <img src="luxe-look2-green.jpg" alt="Second green makeup look by Luxeby Excel">
-            <div class="look-label">
-              <strong>Green Luxe</strong>
-              <span>Look 02</span>
-            </div>
+            <img src="luxe-look2-green.jpg" alt="Green luxe makeup by Luxeby Excel">
+            <div class="look-meta"><strong>Green Luxe</strong><span>02</span></div>
           </article>
-
           <article class="look reveal">
-            <img src="luxe-look3-red.jpg" alt="Red outfit makeup look by Luxeby Excel">
-            <div class="look-label">
-              <strong>Red Carpet</strong>
-              <span>Look 03</span>
-            </div>
+            <img src="luxe-look3-red.jpg" alt="Red carpet makeup by Luxeby Excel">
+            <div class="look-meta"><strong>Red Carpet</strong><span>03</span></div>
           </article>
-
           <article class="look wide reveal">
-            <img src="luxe-look4-red.jpg" alt="Second red makeup look by Luxeby Excel">
-            <div class="look-label">
-              <strong>Event Ready Finish</strong>
-              <span>Look 04</span>
-            </div>
+            <img src="luxe-look4-red.jpg" alt="Event ready finish by Luxeby Excel">
+            <div class="look-meta"><strong>Event Ready Finish</strong><span>04</span></div>
           </article>
-
           <article class="look reveal">
-            <img src="luxe-look5-brown-HERO-IMAGE.jpg" alt="Brown hero makeup look by Luxeby Excel">
-            <div class="look-label">
-              <strong>Warm Bridal Glow</strong>
-              <span>Look 05</span>
-            </div>
+            <img src="luxe-look5-brown-HERO-IMAGE.jpg" alt="Warm bridal glow by Luxeby Excel">
+            <div class="look-meta"><strong>Warm Bridal Glow</strong><span>05</span></div>
           </article>
-
           <article class="look reveal">
-            <img src="luxe-look6-brown.jpg" alt="Second brown makeup look by Luxeby Excel">
-            <div class="look-label">
-              <strong>Soft Brown Finish</strong>
-              <span>Look 06</span>
-            </div>
+            <img src="luxe-look6-brown.jpg" alt="Soft brown finish by Luxeby Excel">
+            <div class="look-meta"><strong>Soft Brown Finish</strong><span>06</span></div>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- PROCESS -->
     <section>
-      <div class="container experience">
-        <div class="experience-panel reveal">
-          <div>
-            <div class="section-kicker">The experience</div>
-            <h2>Clear booking. Calm process. Premium finish.</h2>
-            <p class="section-copy">
-              Beauty clients need confidence before they book. This section turns her service into a simple client journey.
-            </p>
+      <div class="container">
+        <div class="process-layout">
+          <div class="process-panel reveal">
+            <div>
+              <div class="kicker">The experience</div>
+              <h2 class="display" style="font-size:clamp(42px,5.5vw,72px)">Clear booking.<br>Premium finish.</h2>
+              <p class="section-note" style="margin-top:14px">
+                Beauty clients need confidence before they book. This process is designed to be calm, clear, and reassuring.
+              </p>
+            </div>
+            <div class="steps">
+              <div class="step">
+                <div class="step-num">01</div>
+                <div>
+                  <strong>Choose your glam type</strong>
+                  <span>Bridal, event, birthday, photoshoot, gele, or training inquiry.</span>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">02</div>
+                <div>
+                  <strong>Send date, location & style</strong>
+                  <span>Share outfit colour, inspiration, event time, and preferred glam mood.</span>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">03</div>
+                <div>
+                  <strong>Arrive polished and camera-ready</strong>
+                  <span>A face that looks clean in person and beautiful in every photograph.</span>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div class="steps">
-            <div class="step">
-              <b>01</b>
-              <div>
-                <strong>Choose your glam type</strong>
-                <span>Bridal, event, birthday, photoshoot, gele, or training inquiry.</span>
-              </div>
-            </div>
-
-            <div class="step">
-              <b>02</b>
-              <div>
-                <strong>Send date, location, and style</strong>
-                <span>Clients can share outfit color, inspiration, event time, and preferred glam mood.</span>
-              </div>
-            </div>
-
-            <div class="step">
-              <b>03</b>
-              <div>
-                <strong>Arrive polished and camera-ready</strong>
-                <span>The goal is a face that looks clean in person and beautiful in photos.</span>
-              </div>
-            </div>
+          <div class="process-img reveal">
+            <img src="luxe-look2-green.jpg" alt="Luxeby Excel makeup artistry in Lagos">
+            <div class="process-img-badge">Governor's Road, Ikotun · Lagos</div>
           </div>
-        </div>
-
-        <div class="feature-image reveal">
-          <img src="luxe-look2-green.jpg" alt="Luxeby Excel makeup and gele artistry in Lagos">
         </div>
       </div>
     </section>
 
-    <section id="transformations">
+    <!-- REELS -->
+    <section id="reels">
       <div class="container">
-        <div class="section-head reveal">
+        <div class="section-lead reveal">
           <div>
-            <div class="section-kicker">Transformation reels</div>
-            <h2>See the glam in motion.</h2>
+            <div class="kicker">Transformation reels</div>
+            <h2 class="display">See the glam in motion.</h2>
           </div>
-          <p class="section-copy">
-            Instagram reels are used here as social proof. If the embed fails on a browser, the visitor still gets a direct link to watch each transformation on Instagram.
+          <p class="section-note">
+            Selected Instagram reels. If embeds are unavailable, each card links directly to the reel on Instagram.
           </p>
         </div>
 
-        <div class="reel-shell reveal">
-          <div class="reel-top">
-            <p>
-              Swipe through selected Luxeby Excel transformation reels. These can be replaced anytime with stronger videos or client-approved clips.
-            </p>
+        <div class="reels-wrap reveal">
+          <div class="reels-top">
+            <p>Swipe through transformation reels — real client looks, real results.</p>
             <div class="reel-controls">
-              <button class="control-btn" type="button" id="prevReel" aria-label="Previous reel">‹</button>
-              <button class="control-btn" type="button" id="nextReel" aria-label="Next reel">›</button>
+              <button class="reel-btn" id="prevReel" type="button" aria-label="Previous reel">‹</button>
+              <button class="reel-btn" id="nextReel" type="button" aria-label="Next reel">›</button>
             </div>
           </div>
-
           <div class="reel-window">
             <div class="reel-track" id="reelTrack">
               <div class="reel-slide">
                 <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DWpEB-ajb1-/" data-instgrm-version="14">
                   <div class="reel-fallback">
-                    <div>
-                      <h3>Transformation 01</h3>
-                      <p>Watch this Luxeby Excel reel on Instagram.</p>
-                      <a class="btn" href="https://www.instagram.com/reel/DWpEB-ajb1-/" target="_blank" rel="noopener">Watch Reel</a>
-                    </div>
+                    <h3>Transformation 01</h3>
+                    <p>Watch this Luxeby Excel reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DWpEB-ajb1-/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
-
               <div class="reel-slide">
                 <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DWVtHkWDdyj/" data-instgrm-version="14">
                   <div class="reel-fallback">
-                    <div>
-                      <h3>Transformation 02</h3>
-                      <p>Watch this Luxeby Excel reel on Instagram.</p>
-                      <a class="btn" href="https://www.instagram.com/reel/DWVtHkWDdyj/" target="_blank" rel="noopener">Watch Reel</a>
-                    </div>
+                    <h3>Transformation 02</h3>
+                    <p>Watch this Luxeby Excel reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DWVtHkWDdyj/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
-
               <div class="reel-slide">
                 <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYH3AKctMcs/" data-instgrm-version="14">
                   <div class="reel-fallback">
-                    <div>
-                      <h3>Transformation 03</h3>
-                      <p>Watch this Luxeby Excel reel on Instagram.</p>
-                      <a class="btn" href="https://www.instagram.com/reel/DYH3AKctMcs/" target="_blank" rel="noopener">Watch Reel</a>
-                    </div>
+                    <h3>Transformation 03</h3>
+                    <p>Watch this Luxeby Excel reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DYH3AKctMcs/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
-
               <div class="reel-slide">
                 <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DT01NRZDSK5/" data-instgrm-version="14">
                   <div class="reel-fallback">
-                    <div>
-                      <h3>Transformation 04</h3>
-                      <p>Watch this Luxeby Excel reel on Instagram.</p>
-                      <a class="btn" href="https://www.instagram.com/reel/DT01NRZDSK5/" target="_blank" rel="noopener">Watch Reel</a>
-                    </div>
+                    <h3>Transformation 04</h3>
+                    <p>Watch this Luxeby Excel reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DT01NRZDSK5/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
-
               <div class="reel-slide">
                 <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOx2R6vjCAg/" data-instgrm-version="14">
                   <div class="reel-fallback">
-                    <div>
-                      <h3>Transformation 05</h3>
-                      <p>Watch this Luxeby Excel reel on Instagram.</p>
-                      <a class="btn" href="https://www.instagram.com/reel/DOx2R6vjCAg/" target="_blank" rel="noopener">Watch Reel</a>
-                    </div>
+                    <h3>Transformation 05</h3>
+                    <p>Watch this Luxeby Excel reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DOx2R6vjCAg/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
             </div>
           </div>
-
-          <div class="dots" id="reelDots" aria-label="Reel carousel navigation"></div>
+          <div class="reel-dots" id="reelDots"></div>
         </div>
       </div>
     </section>
 
+    <!-- BOOKING -->
     <section id="booking">
       <div class="container">
-        <div class="booking reveal">
-          <div class="booking-content">
-            <div class="section-kicker">Book or inquire</div>
-            <h2>Ready for a polished glam experience?</h2>
-            <p>
-              Send your event date, preferred glam style, location, outfit color, and whether you need makeup, gele, bridal service, or training.
-            </p>
-
-            <div class="booking-list">
-              <span>Bridal glam</span>
-              <span>Event makeup</span>
-              <span>Gele styling</span>
-              <span>Makeup training</span>
+        <div class="booking-wrap reveal">
+          <div class="booking-body">
+            <div class="kicker">Book or inquire</div>
+            <h2 class="display" style="font-size:clamp(44px,6.5vw,88px)">Ready for<br><em style="font-style:italic;color:var(--gold-light)">your</em> glam?</h2>
+            <p>Send your event date, preferred glam style, location, outfit colour, and whether you need makeup, gele, bridal service, or training. She'll be in touch.</p>
+            <div class="service-pills">
+              <span class="pill">Bridal glam</span>
+              <span class="pill">Event makeup</span>
+              <span class="pill">Gele styling</span>
+              <span class="pill">Makeup training</span>
             </div>
-
-            <!-- Replace the WhatsApp number below with their real booking number -->
-            <a class="btn" href="https://wa.me/2340000000000?text=Hello%20Luxeby%20Excel%2C%20I%20would%20like%20to%20book%20or%20ask%20about%20your%20makeup%20services." target="_blank" rel="noopener">Book on WhatsApp</a>
-            <a class="btn secondary" href="https://www.instagram.com/luxeby_excel/" target="_blank" rel="noopener">Visit Instagram</a>
+            <div class="booking-actions">
+              <a class="btn-primary" href="https://wa.me/2340000000000?text=Hello%20Luxeby%20Excel%2C%20I%20would%20like%20to%20book%20or%20ask%20about%20your%20makeup%20services." target="_blank" rel="noopener">Book on WhatsApp</a>
+              <a class="btn-ghost" href="https://www.instagram.com/luxeby_excel/" target="_blank" rel="noopener">Visit Instagram</a>
+            </div>
           </div>
-
-          <div class="booking-image">
-            <img src="luxe-look1-green.jpg" alt="Book Luxeby Excel makeup services in Lagos">
+          <div class="booking-img">
+            <img src="luxe-look1-green.jpg" alt="Book Luxeby Excel makeup in Lagos">
           </div>
         </div>
       </div>
@@ -1375,89 +1247,132 @@
 
     <footer>
       <div class="container footer-inner">
-        <p>Luxeby Excel. Makeup, gele, bridal glam, events, and training in Lagos, Nigeria.</p>
-        <p>Demo website concept by Built by Sammie.</p>
+        <p>© Luxeby Excel · Makeup, gele & bridal glam in Lagos, Nigeria.</p>
+        <p>Demo concept by Built by Sammie.</p>
       </div>
     </footer>
+
   </main>
 
   <script async defer src="https://www.instagram.com/embed.js"></script>
 
   <script>
-    const loader = document.getElementById("loader");
+    // ── LOADER ──
+    // The fix: don't rely on DOMContentLoaded inside the script tag.
+    // Use a simple time-based approach with a guaranteed min display time,
+    // then remove with a smooth fade.
+    const loader = document.getElementById('loader');
+    const MIN_DISPLAY = 2200; // ms — enough for the animation to complete
+    const start = Date.now();
 
-    function hideLoader() {
-      if (!loader) return;
-      loader.classList.add("hide");
-      document.body.classList.remove("no-scroll");
+    function dismissLoader() {
+      const elapsed = Date.now() - start;
+      const remaining = Math.max(0, MIN_DISPLAY - elapsed);
+      setTimeout(() => {
+        loader.classList.add('fade-out');
+        // After fade, remove from DOM so it doesn't block anything
+        setTimeout(() => {
+          loader.style.display = 'none';
+          // Trigger hero entrance animations
+          document.querySelector('.hero-copy')?.classList.add('enter');
+          document.querySelector('.hero-card-wrap')?.classList.add('enter');
+        }, 1000);
+      }, remaining);
     }
 
-    // Do not wait for Instagram embeds or heavy images.
-    // The intro should disappear quickly even if external content is slow.
-    document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(hideLoader, 1800);
+    // Trigger as soon as document is interactive enough
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', dismissLoader);
+    } else {
+      dismissLoader();
+    }
+
+    // Hard safety net: if something went wrong, force dismiss after 4s
+    setTimeout(() => {
+      if (loader && loader.style.display !== 'none') {
+        loader.classList.add('fade-out');
+        setTimeout(() => { loader.style.display = 'none'; }, 800);
+      }
+    }, 4000);
+
+    // ── CUSTOM CURSOR ──
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
     });
 
-    // Safety fallback: forces the site to open even if something blocks DOMContentLoaded.
-    setTimeout(hideLoader, 3000);
+    (function animRing() {
+      rx += (mx - rx) * 0.14;
+      ry += (my - ry) * 0.14;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
 
-    const revealItems = document.querySelectorAll(".reveal");
+    document.querySelectorAll('a, button, .look, .service-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
+    // ── NAV SCROLL ──
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── REVEAL ON SCROLL ──
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          revealObs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.14 });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => revealObs.observe(el));
 
-    revealItems.forEach((item) => observer.observe(item));
+    // ── REEL CAROUSEL ──
+    const track    = document.getElementById('reelTrack');
+    const slides   = Array.from(document.querySelectorAll('.reel-slide'));
+    const dotsWrap = document.getElementById('reelDots');
+    const prevBtn  = document.getElementById('prevReel');
+    const nextBtn  = document.getElementById('nextReel');
+    let cur = 0;
 
-    const track = document.getElementById("reelTrack");
-    const slides = Array.from(document.querySelectorAll(".reel-slide"));
-    const dotsWrap = document.getElementById("reelDots");
-    const prev = document.getElementById("prevReel");
-    const next = document.getElementById("nextReel");
-
-    let currentSlide = 0;
-
-    slides.forEach((_, index) => {
-      const dot = document.createElement("button");
-      dot.className = "dot";
-      dot.type = "button";
-      dot.setAttribute("aria-label", `Go to reel ${index + 1}`);
-      dot.addEventListener("click", () => goToSlide(index));
-      dotsWrap.appendChild(dot);
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'reel-dot';
+      d.setAttribute('aria-label', `Reel ${i + 1}`);
+      d.addEventListener('click', () => go(i));
+      dotsWrap.appendChild(d);
     });
 
-    const dots = Array.from(document.querySelectorAll(".dot"));
+    const dotEls = Array.from(document.querySelectorAll('.reel-dot'));
 
-    function processInstagramEmbeds() {
-      if (window.instgrm && window.instgrm.Embeds) {
-        window.instgrm.Embeds.process();
-      }
+    function processIG() {
+      if (window.instgrm?.Embeds) window.instgrm.Embeds.process();
     }
 
-    function goToSlide(index) {
-      currentSlide = (index + slides.length) % slides.length;
-      track.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-      dots.forEach((dot, dotIndex) => {
-        dot.classList.toggle("active", dotIndex === currentSlide);
-      });
-
-      setTimeout(processInstagramEmbeds, 250);
+    function go(idx) {
+      cur = ((idx % slides.length) + slides.length) % slides.length;
+      track.style.transform = `translateX(-${cur * 100}%)`;
+      dotEls.forEach((d, i) => d.classList.toggle('on', i === cur));
+      setTimeout(processIG, 260);
     }
 
-    prev.addEventListener("click", () => goToSlide(currentSlide - 1));
-    next.addEventListener("click", () => goToSlide(currentSlide + 1));
+    prevBtn.addEventListener('click', () => go(cur - 1));
+    nextBtn.addEventListener('click', () => go(cur + 1));
+    go(0);
 
-    goToSlide(0);
-
-    window.addEventListener("load", () => {
-      setTimeout(processInstagramEmbeds, 900);
-    });
+    window.addEventListener('load', () => setTimeout(processIG, 900));
   </script>
+
 </body>
 </html>
