@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Luxeby Excel | Makeup, Gele & Bridal Glam in Lagos</title>
-  <meta name="description" content="Premium makeup, gele, bridal glam, event beauty, and training by Luxeby Excel in Governor's Road, Ikotun, Lagos." />
+  <title>Glamsbykiki | Pro Makeup Artist in Ajah / Ikotun Lagos</title>
+  <meta name="description" content="Glamsbykiki is a pro makeup artist in Ajah / Ikotun Lagos, offering bridal glam, party makeup, beauty training, and travel-ready bookings." />
 
-  <meta property="og:title" content="Luxeby Excel | Premium Makeup & Gele Artistry" />
-  <meta property="og:description" content="Bridal, event glam, gele styling, training, and beauty transformations in Lagos, Nigeria." />
+  <meta property="og:title" content="Glamsbykiki | Bridal, Party Makeup & Training" />
+  <meta property="og:description" content="Premium makeup artistry for bridal, party, travel bookings, and training in Lagos." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="luxe-look5-brown-HERO-IMAGE.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -931,6 +930,337 @@
       .booking-img { min-height: 320px; }
       .reels-top { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ── VIDEO-ONLY DEMO SUPPORT ── */
+    .video-hero-bg {
+      background:
+        radial-gradient(circle at 72% 22%, rgba(232,201,122,0.18), transparent 28%),
+        radial-gradient(circle at 24% 62%, rgba(158,78,69,0.18), transparent 32%),
+        linear-gradient(135deg, #0a0806 0%, #1a100d 48%, #070504 100%);
+    }
+
+    .video-hero-bg::after {
+      background:
+        linear-gradient(105deg, rgba(10,8,6,0.94) 0%, rgba(10,8,6,0.68) 52%, rgba(10,8,6,0.28) 100%),
+        linear-gradient(0deg, rgba(10,8,6,1) 0%, rgba(10,8,6,0) 38%);
+    }
+
+    .beauty-orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(16px);
+      opacity: 0.75;
+      animation: driftOrb 12s ease-in-out infinite alternate;
+    }
+
+    .orb-one {
+      width: 360px;
+      height: 520px;
+      right: 9%;
+      top: 16%;
+      background: linear-gradient(180deg, rgba(232,201,122,0.22), rgba(158,78,69,0.08));
+      transform: rotate(18deg);
+    }
+
+    .orb-two {
+      width: 240px;
+      height: 240px;
+      left: 8%;
+      top: 28%;
+      background: rgba(201,153,62,0.12);
+      animation-delay: 0.5s;
+    }
+
+    .orb-three {
+      width: 420px;
+      height: 190px;
+      right: 22%;
+      bottom: 12%;
+      background: rgba(253,246,238,0.06);
+      animation-delay: 1s;
+    }
+
+    .hero-film-grain {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0 48%, rgba(253,246,238,0.04) 49% 51%, transparent 52% 100%),
+        repeating-linear-gradient(90deg, rgba(253,246,238,0.025) 0 1px, transparent 1px 90px);
+      mask-image: radial-gradient(circle at 72% 46%, black 0 42%, transparent 70%);
+      opacity: 0.8;
+    }
+
+    @keyframes driftOrb {
+      from { transform: translate3d(0,0,0) rotate(10deg) scale(1); }
+      to { transform: translate3d(-18px,18px,0) rotate(18deg) scale(1.05); }
+    }
+
+    .video-hero-card .phone-frame {
+      position: relative;
+      border-radius: 36px;
+      padding: 12px;
+      background: linear-gradient(145deg, rgba(253,246,238,0.16), rgba(253,246,238,0.04));
+      border: 1px solid rgba(253,246,238,0.14);
+      margin-bottom: 18px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .phone-top {
+      width: 68px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(253,246,238,0.28);
+      margin: 4px auto 12px;
+    }
+
+    .phone-screen {
+      min-height: 380px;
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: end;
+      padding: 22px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(232,201,122,0.3), transparent 28%),
+        radial-gradient(circle at 70% 70%, rgba(158,78,69,0.28), transparent 34%),
+        linear-gradient(160deg, #21140f, #0a0806);
+    }
+
+    .phone-screen::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(253,246,238,0.1);
+      border-radius: 24px;
+    }
+
+    .phone-screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 20%, rgba(10,8,6,0.72) 100%);
+    }
+
+    .play-pulse,
+    .video-play {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(253,246,238,0.12);
+      border: 1px solid rgba(253,246,238,0.2);
+      color: var(--gold-light);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 0 0 0 rgba(232,201,122,0.22);
+      animation: pulsePlay 2.4s ease-in-out infinite;
+    }
+
+    .play-pulse {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 3;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes pulsePlay {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232,201,122,0.22); }
+      50% { box-shadow: 0 0 0 18px rgba(232,201,122,0); }
+    }
+
+    .phone-copy {
+      position: relative;
+      z-index: 4;
+    }
+
+    .phone-copy span,
+    .video-tag,
+    .process-video-inner span,
+    .booking-video-content span {
+      display: inline-flex;
+      width: fit-content;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(201,153,62,0.14);
+      border: 1px solid rgba(232,201,122,0.2);
+      color: var(--gold-light);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .phone-copy strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .video-proof-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr 1fr;
+      grid-auto-rows: 270px;
+      gap: 12px;
+    }
+
+    .video-proof-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r);
+      border: 1px solid rgba(253,246,238,0.08);
+      background: rgba(26,20,16,0.6);
+      min-height: 260px;
+    }
+
+    .video-proof-card.tall { grid-row: span 2; }
+    .video-proof-card.wide { grid-column: span 2; }
+
+    .video-card-art {
+      position: absolute;
+      inset: 0;
+      padding: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 45% 28%, rgba(232,201,122,0.30), transparent 27%),
+        radial-gradient(circle at 70% 72%, rgba(158,78,69,0.28), transparent 34%),
+        linear-gradient(145deg, #1d120e, #090605);
+    }
+
+    .video-card-art.alt {
+      background:
+        radial-gradient(circle at 40% 30%, rgba(253,246,238,0.16), transparent 26%),
+        linear-gradient(145deg, #19100d, #4c2c1c);
+    }
+
+    .video-card-art.rose-card {
+      background:
+        radial-gradient(circle at 55% 35%, rgba(232,201,122,0.18), transparent 27%),
+        linear-gradient(145deg, #2a1110, #090605);
+    }
+
+    .video-card-art.gold-card {
+      background:
+        radial-gradient(circle at 60% 28%, rgba(232,201,122,0.34), transparent 27%),
+        linear-gradient(145deg, #3a2415, #0a0806);
+    }
+
+    .video-card-art.dark-card {
+      background:
+        radial-gradient(circle at 48% 35%, rgba(253,246,238,0.11), transparent 30%),
+        linear-gradient(145deg, #0a0806, #1c1712);
+    }
+
+    .video-card-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(10,8,6,0) 30%, rgba(10,8,6,0.88) 100%),
+        repeating-linear-gradient(90deg, rgba(253,246,238,0.035) 0 1px, transparent 1px 68px);
+    }
+
+    .video-card-art .video-play {
+      position: relative;
+      z-index: 2;
+    }
+
+    .video-tag {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 3;
+      margin: 0;
+    }
+
+    .video-proof-meta {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      z-index: 4;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .video-proof-meta strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .video-proof-meta span {
+      color: var(--gold-light);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .process-video-card,
+    .booking-video-art {
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 45% 35%, rgba(232,201,122,0.24), transparent 30%),
+        radial-gradient(circle at 72% 72%, rgba(158,78,69,0.22), transparent 34%),
+        linear-gradient(145deg, #1a100d, #080504);
+    }
+
+    .process-video-inner,
+    .booking-video-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 430px;
+      padding: 28px;
+    }
+
+    .video-play.large {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 24px;
+      font-size: 22px;
+    }
+
+    .process-video-inner strong,
+    .booking-video-content strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 50px);
+      font-weight: 400;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      color: var(--parchment);
+    }
+
+    @media (max-width: 900px) {
+      .video-proof-grid { grid-template-columns: 1fr 1fr; }
+      .video-proof-card.wide { grid-column: span 1; }
+    }
+
+    @media (max-width: 640px) {
+      .video-proof-grid { grid-template-columns: 1fr; grid-auto-rows: 330px; }
+      .video-proof-card.tall { grid-row: span 1; }
+      .phone-screen { min-height: 320px; }
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; }
+      button, a { cursor: pointer; }
+    }
+
   </style>
 </head>
 <body>
@@ -944,14 +1274,14 @@
     <div class="l-bg"></div>
     <div class="l-inner">
       <div class="l-oval">
-        <span class="l-monogram">LX</span>
+        <span class="l-monogram">GK</span>
       </div>
       <div class="l-title">
-        <span>Luxeby</span>
-        <span>Excel</span>
+        <span>Glamsby</span>
+        <span>Kiki</span>
       </div>
       <div class="l-rule"></div>
-      <div class="l-sub">Lagos &nbsp;·&nbsp; Makeup & Gele Artistry</div>
+      <div class="l-sub">Lagos &nbsp;·&nbsp; Makeup Artistry</div>
       <div class="l-progress"><div class="l-progress-fill"></div></div>
     </div>
   </div>
@@ -963,8 +1293,8 @@
     <!-- NAV -->
     <nav class="nav" id="mainNav">
       <a class="brand" href="#top">
-        <span class="brand-mark">𝐿</span>
-        <span>Luxeby Excel</span>
+        <span class="brand-mark">GK</span>
+        <span>Glamsbykiki</span>
       </a>
       <div class="nav-links">
         <a href="#services">Services</a>
@@ -972,41 +1302,51 @@
         <a href="#reels">Transformations</a>
         <a href="#booking">Booking</a>
       </div>
-      <a class="btn-book" href="https://wa.me/2340000000000" target="_blank" rel="noopener">Book Glam ↗</a>
+      <a class="btn-book" href="https://wa.me/2348145994555" target="_blank" rel="noopener">Book Glam ↗</a>
     </nav>
 
     <!-- HERO -->
     <header class="hero" id="top">
-      <div class="hero-bg">
-        <img src="luxe-look5-brown-HERO-IMAGE.jpg" alt="Premium bridal makeup look by Luxeby Excel">
+      <div class="hero-bg video-hero-bg" aria-hidden="true">
+        <div class="beauty-orb orb-one"></div>
+        <div class="beauty-orb orb-two"></div>
+        <div class="beauty-orb orb-three"></div>
+        <div class="hero-film-grain"></div>
       </div>
 
       <div class="container hero-inner">
         <div class="hero-copy">
-          <div class="tag"><span class="tag-dot"></span>Makeup · Gele · Bridal · Lagos</div>
-          <h1>Soft glam.<br><em>Polished</em><br>beauty.</h1>
+          <div class="tag"><span class="tag-dot"></span>Pro MUA · Bridal · Party · Training</div>
+          <h1>Bridal glam.<br><em>Party</em><br>beauty.</h1>
           <p class="hero-desc">
-            Luxeby Excel creates refined makeup and gele looks for brides, events, shoots, and women who want to look unforgettable without losing their natural elegance.
+            Glamsbykiki is a pro MUA serving Ajah, Ikotun, and travel bookings, creating clean bridal glam, party-ready faces, and beauty training for women who want a polished finish.
           </p>
           <div class="hero-actions">
             <a class="btn-primary" href="#booking">Book Your Glam</a>
-            <a class="btn-ghost" href="#looks">View Looks</a>
+            <a class="btn-ghost" href="#reels">Watch Transformations</a>
           </div>
           <div class="stats">
-            <div class="stat"><strong>247+</strong><span>Posts</span></div>
-            <div class="stat"><strong>Lagos</strong><span>Studio</span></div>
-            <div class="stat"><strong>Bridal</strong><span>Events</span></div>
+            <div class="stat"><strong>87</strong><span>Posts</span></div>
+            <div class="stat"><strong>Lagos</strong><span>Ajah / Ikotun</span></div>
+            <div class="stat"><strong>Bridal</strong><span>Party Glam</span></div>
             <div class="stat"><strong>Training</strong><span>Education</span></div>
           </div>
         </div>
 
         <div class="hero-card-wrap">
-          <div class="hero-card">
-            <div class="hero-card-img">
-              <img src="luxe-look6-brown.jpg" alt="Brown-toned makeup look by Luxeby Excel">
+          <div class="hero-card video-hero-card">
+            <div class="phone-frame">
+              <div class="phone-top"></div>
+              <div class="phone-screen">
+                <div class="play-pulse">▶</div>
+                <div class="phone-copy">
+                  <span>Transformation Reel</span>
+                  <strong>Soft glam reveal</strong>
+                </div>
+              </div>
             </div>
-            <h3>Beauty that photographs beautifully.</h3>
-            <p>Built for weddings, birthdays, events, shoots, and intimate glam appointments across Lagos.</p>
+            <h3>Beauty that moves beyond the feed.</h3>
+            <p>A premium booking page built around her strongest asset: transformation videos, bridal glam, party makeup, and training inquiries.</p>
           </div>
         </div>
       </div>
@@ -1018,10 +1358,10 @@
         <div class="section-lead reveal">
           <div>
             <div class="kicker">What she offers</div>
-            <h2 class="display">Glam done with intention.</h2>
+            <h2 class="display">Glam built for real events.</h2>
           </div>
           <p class="section-note">
-            Each service is approached with precision, warmth, and a commitment to a result that holds beautifully both in person and in photographs.
+            Her Instagram is video-heavy, so this demo turns that into a strength: movement, transformation, and a clear route to booking.
           </p>
         </div>
 
@@ -1030,7 +1370,7 @@
             <span class="service-num">01</span>
             <div>
               <h3>Bridal Glam</h3>
-              <p>Elegant wedding makeup and gele styling for traditional, court, white wedding, and reception moments.</p>
+              <p>Elegant wedding makeup for traditional, court, white wedding, and reception moments.</p>
             </div>
           </article>
           <article class="service-card reveal">
@@ -1043,8 +1383,8 @@
           <article class="service-card reveal">
             <span class="service-num">03</span>
             <div>
-              <h3>Gele Styling</h3>
-              <p>Structured, polished gele finishing that complements the face, outfit, and overall event presence.</p>
+              <h3>Travel Glam</h3>
+              <p>Available to travel for bookings, bridal parties, shoots, and event-ready beauty moments.</p>
             </div>
           </article>
           <article class="service-card reveal">
@@ -1058,43 +1398,73 @@
       </div>
     </section>
 
-    <!-- GALLERY / LOOKS -->
+    <!-- VIDEO-LED PORTFOLIO -->
     <section id="looks">
       <div class="container">
         <div class="section-lead reveal">
           <div>
-            <div class="kicker">Selected looks</div>
-            <h2 class="display">A curated lookbook.</h2>
+            <div class="kicker">Video-led portfolio</div>
+            <h2 class="display">Her proof is in motion.</h2>
           </div>
           <p class="section-note">
-            Six signature looks shot and styled to show the range — from emerald editorial to warm bridal glow.
+            No clean photos? That is not a dead end. This section frames her Instagram videos as premium transformation proof instead of forcing weak screenshots.
           </p>
         </div>
 
-        <div class="gallery-grid">
-          <article class="look tall reveal">
-            <img src="luxe-look1-green.jpg" alt="Emerald soft glam by Luxeby Excel">
-            <div class="look-meta"><strong>Emerald Soft Glam</strong><span>01</span></div>
+        <div class="video-proof-grid">
+          <article class="video-proof-card tall reveal">
+            <div class="video-card-art">
+              <div class="video-play">▶</div>
+              <span class="video-tag">Bridal</span>
+            </div>
+            <div class="video-proof-meta">
+              <strong>Bridal Glam Reveal</strong>
+              <span>Transformation 01</span>
+            </div>
           </article>
-          <article class="look reveal">
-            <img src="luxe-look2-green.jpg" alt="Green luxe makeup by Luxeby Excel">
-            <div class="look-meta"><strong>Green Luxe</strong><span>02</span></div>
+
+          <article class="video-proof-card reveal">
+            <div class="video-card-art alt">
+              <div class="video-play">▶</div>
+              <span class="video-tag">Party</span>
+            </div>
+            <div class="video-proof-meta">
+              <strong>Party Makeup Finish</strong>
+              <span>Transformation 02</span>
+            </div>
           </article>
-          <article class="look reveal">
-            <img src="luxe-look3-red.jpg" alt="Red carpet makeup by Luxeby Excel">
-            <div class="look-meta"><strong>Red Carpet</strong><span>03</span></div>
+
+          <article class="video-proof-card reveal">
+            <div class="video-card-art rose-card">
+              <div class="video-play">▶</div>
+              <span class="video-tag">Soft glam</span>
+            </div>
+            <div class="video-proof-meta">
+              <strong>Soft Glam Process</strong>
+              <span>Transformation 03</span>
+            </div>
           </article>
-          <article class="look wide reveal">
-            <img src="luxe-look4-red.jpg" alt="Event ready finish by Luxeby Excel">
-            <div class="look-meta"><strong>Event Ready Finish</strong><span>04</span></div>
+
+          <article class="video-proof-card wide reveal">
+            <div class="video-card-art gold-card">
+              <div class="video-play">▶</div>
+              <span class="video-tag">Training</span>
+            </div>
+            <div class="video-proof-meta">
+              <strong>Makeup Training & Technique</strong>
+              <span>Education</span>
+            </div>
           </article>
-          <article class="look reveal">
-            <img src="luxe-look5-brown-HERO-IMAGE.jpg" alt="Warm bridal glow by Luxeby Excel">
-            <div class="look-meta"><strong>Warm Bridal Glow</strong><span>05</span></div>
-          </article>
-          <article class="look reveal">
-            <img src="luxe-look6-brown.jpg" alt="Soft brown finish by Luxeby Excel">
-            <div class="look-meta"><strong>Soft Brown Finish</strong><span>06</span></div>
+
+          <article class="video-proof-card reveal">
+            <div class="video-card-art dark-card">
+              <div class="video-play">▶</div>
+              <span class="video-tag">Travel</span>
+            </div>
+            <div class="video-proof-meta">
+              <strong>Available to Travel</strong>
+              <span>Bookings</span>
+            </div>
           </article>
         </div>
       </div>
@@ -1124,21 +1494,25 @@
                 <div class="step-num">02</div>
                 <div>
                   <strong>Send date, location & style</strong>
-                  <span>Share outfit colour, inspiration, event time, and preferred glam mood.</span>
+                  <span>Share event date, outfit colour, location, inspiration, and preferred glam mood.</span>
                 </div>
               </div>
               <div class="step">
                 <div class="step-num">03</div>
                 <div>
                   <strong>Arrive polished and camera-ready</strong>
-                  <span>A face that looks clean in person and beautiful in every photograph.</span>
+                  <span>A polished face that looks clean in person, on video, and in every photograph.</span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="process-img reveal">
-            <img src="luxe-look2-green.jpg" alt="Luxeby Excel makeup artistry in Lagos">
-            <div class="process-img-badge">Governor's Road, Ikotun · Lagos</div>
+          <div class="process-img reveal process-video-card">
+            <div class="process-video-inner">
+              <div class="video-play large">▶</div>
+              <span>Ajah / Ikotun Lagos</span>
+              <strong>DM or WhatsApp to book bridal glam, party makeup, training, or travel appointments.</strong>
+            </div>
+            <div class="process-img-badge">Available to travel 🌎</div>
           </div>
         </div>
       </div>
@@ -1150,16 +1524,16 @@
         <div class="section-lead reveal">
           <div>
             <div class="kicker">Transformation reels</div>
-            <h2 class="display">See the glam in motion.</h2>
+            <h2 class="display">Watch the transformations.</h2>
           </div>
           <p class="section-note">
-            Selected Instagram reels. If embeds are unavailable, each card links directly to the reel on Instagram.
+            Selected Glamsbykiki reels. The site keeps them inside a clean carousel so the page still feels premium.
           </p>
         </div>
 
         <div class="reels-wrap reveal">
           <div class="reels-top">
-            <p>Swipe through transformation reels — real client looks, real results.</p>
+            <p>Swipe through transformation reels, bridal looks, party finishes, and process clips.</p>
             <div class="reel-controls">
               <button class="reel-btn" id="prevReel" type="button" aria-label="Previous reel">‹</button>
               <button class="reel-btn" id="nextReel" type="button" aria-label="Next reel">›</button>
@@ -1168,47 +1542,47 @@
           <div class="reel-window">
             <div class="reel-track" id="reelTrack">
               <div class="reel-slide">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DWpEB-ajb1-/" data-instgrm-version="14">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DX6TN4otUcj/" data-instgrm-version="14">
                   <div class="reel-fallback">
                     <h3>Transformation 01</h3>
-                    <p>Watch this Luxeby Excel reel on Instagram.</p>
-                    <a class="btn-primary" href="https://www.instagram.com/reel/DWpEB-ajb1-/" target="_blank" rel="noopener">Watch Reel ↗</a>
+                    <p>Watch this Glamsbykiki reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DX6TN4otUcj/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
               <div class="reel-slide">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DWVtHkWDdyj/" data-instgrm-version="14">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DXMekKLiBNO/" data-instgrm-version="14">
                   <div class="reel-fallback">
                     <h3>Transformation 02</h3>
-                    <p>Watch this Luxeby Excel reel on Instagram.</p>
-                    <a class="btn-primary" href="https://www.instagram.com/reel/DWVtHkWDdyj/" target="_blank" rel="noopener">Watch Reel ↗</a>
+                    <p>Watch this Glamsbykiki reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DXMekKLiBNO/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
               <div class="reel-slide">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DYH3AKctMcs/" data-instgrm-version="14">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DWEohUzCAOk/" data-instgrm-version="14">
                   <div class="reel-fallback">
                     <h3>Transformation 03</h3>
-                    <p>Watch this Luxeby Excel reel on Instagram.</p>
-                    <a class="btn-primary" href="https://www.instagram.com/reel/DYH3AKctMcs/" target="_blank" rel="noopener">Watch Reel ↗</a>
+                    <p>Watch this Glamsbykiki reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DWEohUzCAOk/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
               <div class="reel-slide">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DT01NRZDSK5/" data-instgrm-version="14">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DRz12jpDYYB/" data-instgrm-version="14">
                   <div class="reel-fallback">
                     <h3>Transformation 04</h3>
-                    <p>Watch this Luxeby Excel reel on Instagram.</p>
-                    <a class="btn-primary" href="https://www.instagram.com/reel/DT01NRZDSK5/" target="_blank" rel="noopener">Watch Reel ↗</a>
+                    <p>Watch this Glamsbykiki reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DRz12jpDYYB/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
               <div class="reel-slide">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOx2R6vjCAg/" data-instgrm-version="14">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DCNHQvhOcnx/" data-instgrm-version="14">
                   <div class="reel-fallback">
                     <h3>Transformation 05</h3>
-                    <p>Watch this Luxeby Excel reel on Instagram.</p>
-                    <a class="btn-primary" href="https://www.instagram.com/reel/DOx2R6vjCAg/" target="_blank" rel="noopener">Watch Reel ↗</a>
+                    <p>Watch this Glamsbykiki reel on Instagram.</p>
+                    <a class="btn-primary" href="https://www.instagram.com/reel/DCNHQvhOcnx/" target="_blank" rel="noopener">Watch Reel ↗</a>
                   </div>
                 </blockquote>
               </div>
@@ -1226,7 +1600,7 @@
           <div class="booking-body">
             <div class="kicker">Book or inquire</div>
             <h2 class="display" style="font-size:clamp(44px,6.5vw,88px)">Ready for<br><em style="font-style:italic;color:var(--gold-light)">your</em> glam?</h2>
-            <p>Send your event date, preferred glam style, location, outfit colour, and whether you need makeup, gele, bridal service, or training. She'll be in touch.</p>
+            <p>Send your event date, preferred glam style, location, outfit colour, and whether you need makeup, bridal service, or training. She'll be in touch.</p>
             <div class="service-pills">
               <span class="pill">Bridal glam</span>
               <span class="pill">Event makeup</span>
@@ -1234,12 +1608,16 @@
               <span class="pill">Makeup training</span>
             </div>
             <div class="booking-actions">
-              <a class="btn-primary" href="https://wa.me/2340000000000?text=Hello%20Luxeby%20Excel%2C%20I%20would%20like%20to%20book%20or%20ask%20about%20your%20makeup%20services." target="_blank" rel="noopener">Book on WhatsApp</a>
-              <a class="btn-ghost" href="https://www.instagram.com/luxeby_excel/" target="_blank" rel="noopener">Visit Instagram</a>
+              <a class="btn-primary" href="https://wa.me/2348145994555?text=Hello%20Glamsby%20Kiki%2C%20I%20would%20like%20to%20book%20or%20ask%20about%20your%20makeup%20services." target="_blank" rel="noopener">Book on WhatsApp</a>
+              <a class="btn-ghost" href="https://www.instagram.com/glamsbykiki/" target="_blank" rel="noopener">Visit Instagram</a>
             </div>
           </div>
-          <div class="booking-img">
-            <img src="luxe-look1-green.jpg" alt="Book Luxeby Excel makeup in Lagos">
+          <div class="booking-img booking-video-art">
+            <div class="booking-video-content">
+              <div class="video-play large">▶</div>
+              <span>Glamsbykiki</span>
+              <strong>Bridal / party makeup · Training · Travel bookings</strong>
+            </div>
           </div>
         </div>
       </div>
@@ -1247,7 +1625,7 @@
 
     <footer>
       <div class="container footer-inner">
-        <p>© Luxeby Excel · Makeup, gele & bridal glam in Lagos, Nigeria.</p>
+        <p>© Glamsbykiki · Makeup, bridal glam & training in Lagos, Nigeria.</p>
         <p>Demo concept by Built by Sammie.</p>
       </div>
     </footer>
@@ -1262,7 +1640,7 @@
     // Use a simple time-based approach with a guaranteed min display time,
     // then remove with a smooth fade.
     const loader = document.getElementById('loader');
-    const MIN_DISPLAY = 2200; // ms — enough for the animation to complete
+    const MIN_DISPLAY = 1600; // short demo intro
     const start = Date.now();
 
     function dismissLoader() {
@@ -1293,7 +1671,7 @@
         loader.classList.add('fade-out');
         setTimeout(() => { loader.style.display = 'none'; }, 800);
       }
-    }, 4000);
+    }, 2800);
 
     // ── CUSTOM CURSOR ──
     const dot = document.getElementById('cursorDot');
